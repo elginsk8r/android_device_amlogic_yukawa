@@ -232,7 +232,8 @@ PRODUCT_PACKAGES += \
     libGLES_mali
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hardware.egl=mali
+    ro.hardware.egl=mali \
+    ro.opengles.version=196609
 
 # Vulkan
 PRODUCT_COPY_FILES += \
