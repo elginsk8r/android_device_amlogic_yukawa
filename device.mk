@@ -233,7 +233,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.egl=mali \
-    ro.opengles.version=196609
+    ro.opengles.version=196610
 
 # Vulkan
 PRODUCT_COPY_FILES += \
