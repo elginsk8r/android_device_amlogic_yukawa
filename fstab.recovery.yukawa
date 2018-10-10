@@ -3,7 +3,7 @@ system_ext	/system_ext	ext4	noatime,ro,errors=panic		wait,avb,logical,first_stag
 product		/product	ext4	noatime,ro,errors=panic		wait,avb,logical,first_stage_mount
 vendor		/vendor		ext4	noatime,ro,errors=panic		wait,avb,logical,first_stage_mount
 /dev/block/by-name/metadata     /metadata       ext4    noatime,nosuid,nodev,discard,sync      wait,check,formattable,first_stage_mount
-/dev/block/platform/soc/ffe07000.mmc/by-name/userdata     /data           f2fs    noatime,nosuid,nodev,inlinecrypt,reserve_root=32768      latemount,wait,check,fileencryption=aes-256-xts:aes-256-cts,quota,formattable,fscompress,readahead_size_kb=128
+/dev/block/platform/soc/ffe07000.mmc/by-name/userdata     /data           f2fs    noatime,nosuid,nodev,inlinecrypt,reserve_root=32768      latemount,wait,check,fileencryption=aes-256-xts:aes-256-cts,quota,formattable,fscompress,readahead_size_kb=128,checkpoint=fs
 /dev/block/platform/soc/ffe07000.mmc/by-name/cache        /cache          ext4    noatime,nosuid,nodev,nodelalloc,nomblk_io_submit,errors=panic    latemount,wait,check,formattable
 /dev/block/platform/soc/ffe07000.mmc/by-name/misc         /misc           emmc    defaults           defaults
 /dev/block/platform/soc/ffe07000.mmc/by-name/recovery     /recovery       emmc    defaults                defaults
