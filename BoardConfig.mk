@@ -159,7 +159,7 @@ TARGET_USES_MKE2FS := true
 TARGET_USES_HWC2 := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
 
-BOARD_SEPOLICY_DIRS += \
+BOARD_VENDOR_SEPOLICY_DIRS += \
         device/amlogic/yukawa/sepolicy
 
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
