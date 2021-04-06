@@ -24,6 +24,20 @@ else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 endif
 
+ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
+TARGET_AML_SOC_MODEL := A311D
+else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
+TARGET_AML_SOC_MODEL := S905D3
+else ifneq ($(filter $(TARGET_DEV_BOARD),sei610),)
+TARGET_AML_SOC_MODEL := S905X3
+else
+TARGET_AML_SOC_MODEL := S905X2
+endif
+
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.soc.manufacturer=Amlogic \
+    ro.soc.model=$(TARGET_AML_SOC_MODEL)
+
 $(call inherit-product, device/amlogic/yukawa/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
