@@ -20,12 +20,10 @@
 # to only building on ARM if they include assembly. Individual makefiles
 # are responsible for having their own logic, for fine-grained control.
 
-ifneq ($(filter yukawa%, $(TARGET_DEVICE)),)
-
 LOCAL_PATH := $(call my-dir)
 
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
-
+ifneq ($(filter $(LOCAL_PATH),$(PRODUCT_SOONG_NAMESPACES)),)
 include $(call all-makefiles-under,$(LOCAL_PATH))
 endif
