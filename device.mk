@@ -287,6 +287,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.health.storage-service.default
 
+# TODO: disable this service once we implement system suspend
+PRODUCT_PACKAGES += \
+    suspend_blocker
+
 # Sensor HAL
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
 TARGET_USES_NANOHUB_SENSORHAL := true
