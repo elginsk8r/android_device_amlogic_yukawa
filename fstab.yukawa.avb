@@ -1,4 +1,5 @@
-/dev/block/platform/soc/ffe07000.mmc/by-name/userdata   /data           f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065     latemount,wait,check,fileencryption=software,quota,formattable,fscompress,readahead_size_kb=128
+/dev/block/platform/soc/ffe07000.mmc/by-name/metadata   /metadata       ext4    noatime,nosuid,nodev,discard,sync                               wait,check,formattable,first_stage_mount
+/dev/block/platform/soc/ffe07000.mmc/by-name/userdata   /data           f2fs    noatime,nosuid,nodev,inlinecrypt,reserve_root=32768     latemount,wait,check,fileencryption=software,keydirectory=/metadata/vold/metadata_encryption,quota,formattable,fscompress,readahead_size_kb=128
 /dev/block/platform/soc/ffe07000.mmc/by-name/cache      /cache          ext4    noatime,nosuid,nodev,nodelalloc,nomblk_io_submit,errors=panic   latemount,wait,check,formattable
 /dev/block/platform/soc/ffe07000.mmc/by-name/misc       /misc           emmc    defaults                                                        defaults
 system                                                  /system         ext4    ro,barrier=1                                                    wait,avb=vbmeta,logical,first_stage_mount
