@@ -13,8 +13,14 @@ on init
     write /sys/block/mmcblk1/queue/iosched/slice_idle 0
     write /sys/block/mmcblk1/queue/nr_requests 256
 
+on early-fs
+    start vold
+
 on fs
-    mount_all /vendor/etc/fstab.yukawa
+    mount_all /vendor/etc/fstab.yukawa --early
+
+on late-fs
+    mount_all /vendor/etc/fstab.yukawa --late
     swapon_all /vendor/etc/fstab.yukawa
 
 on zygote-start
