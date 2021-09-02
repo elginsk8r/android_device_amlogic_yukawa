@@ -115,6 +115,20 @@ static int get_audio_output_port(audio_devices_t devices) {
     return port;
 }
 
+static int get_audio_card(int direction, int port) {
+    struct pcm_params* params = NULL;
+    int card = 0;
+
+    while (!params && card < 8) {
+	/* Find the first input/output device that works */
+        params = pcm_params_get(card, port, direction);
+	card++;
+    }
+    pcm_params_free(params);
+
+    return card - 1;
+}
+
 static void timestamp_adjust(struct timespec* ts, ssize_t frames, uint32_t sampling_rate) {
     /* This function assumes the adjustment (in nsec) is less than the max value of long,
      * which for 32-bit long this is 2^31 * 1e-9 seconds, slightly over 2 seconds.
@@ -216,9 +230,10 @@ static int start_output_stream(struct alsa_stream_out *out)
     out->unavailable = true;
     unsigned int pcm_retry_count = PCM_OPEN_RETRIES;
     int out_port = get_audio_output_port(out->devices);
+    int out_card = get_audio_card(PCM_OUT, out_port);
 
     while (1) {
-        out->pcm = pcm_open(CARD_OUT, out_port, PCM_OUT | PCM_MONOTONIC, &out->config);
+        out->pcm = pcm_open(out_card, out_port, PCM_OUT | PCM_MONOTONIC, &out->config);
         if ((out->pcm != NULL) && pcm_is_ready(out->pcm)) {
             break;
         } else {
@@ -476,9 +491,10 @@ static int start_input_stream(struct alsa_stream_in *in)
     struct alsa_audio_device *adev = in->dev;
     in->unavailable = true;
     unsigned int pcm_retry_count = PCM_OPEN_RETRIES;
+    int in_card = get_audio_card(PCM_IN, PORT_BUILTIN_MIC);
 
     while (1) {
-        in->pcm = pcm_open(CARD_IN, PORT_BUILTIN_MIC, PCM_IN | PCM_MONOTONIC, &in->config);
+        in->pcm = pcm_open(in_card, PORT_BUILTIN_MIC, PCM_IN | PCM_MONOTONIC, &in->config);
         if ((in->pcm != NULL) && pcm_is_ready(in->pcm)) {
             break;
         } else {
@@ -828,7 +844,8 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
 
     struct alsa_audio_device *ladev = (struct alsa_audio_device *)dev;
     int out_port = get_audio_output_port(devices);
-    struct pcm_params* params = pcm_params_get(CARD_OUT, out_port, PCM_OUT);
+    int out_card = get_audio_card(PCM_OUT, out_port);
+    struct pcm_params* params = pcm_params_get(out_card, out_port, PCM_OUT);
     if (!params) {
         return -ENOSYS;
     }
@@ -1024,7 +1041,8 @@ static int adev_open_input_stream(struct audio_hw_device* dev, audio_io_handle_t
 
     struct alsa_audio_device *ladev = (struct alsa_audio_device *)dev;
 
-    struct pcm_params* params = pcm_params_get(CARD_IN, PORT_BUILTIN_MIC, PCM_IN);
+    int in_card = get_audio_card(PCM_IN, PORT_BUILTIN_MIC);
+    struct pcm_params* params = pcm_params_get(in_card, PORT_BUILTIN_MIC, PCM_IN);
     if (!params) {
         return -ENOSYS;
     }
@@ -1175,13 +1193,14 @@ static int adev_open(const hw_module_t* module, const char* name,
 
     *device = &adev->hw_device.common;
 
-    adev->mixer = mixer_open(CARD_OUT);
+    int out_card = get_audio_card(PCM_OUT, 0);
+    adev->mixer = mixer_open(out_card);
     if (!adev->mixer) {
         ALOGE("Unable to open the mixer, aborting.");
         goto error_1;
     }
 
-    adev->audio_route = audio_route_init(CARD_OUT, MIXER_XML_PATH);
+    adev->audio_route = audio_route_init(out_card, MIXER_XML_PATH);
     if (!adev->audio_route) {
         ALOGE("%s: Failed to init audio route controls, aborting.", __func__);
         goto error_2;
