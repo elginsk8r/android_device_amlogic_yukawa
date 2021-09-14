@@ -6,6 +6,8 @@ ifeq ($(TARGET_VIM3), true)
 TARGET_DEV_BOARD := vim3
 else ifeq ($(TARGET_VIM3L), true)
 TARGET_DEV_BOARD := vim3l
+else ifeq ($(TARGET_ODROIDN2), true)
+TARGET_DEV_BOARD := odroidn2
 else ifeq ($(TARGET_DEV_BOARD),)
 TARGET_DEV_BOARD := sei610
 endif
@@ -13,6 +15,9 @@ endif
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3 vim3l),)
 PRODUCT_BRAND := Khadas
 PRODUCT_MANUFACTURER := Khadas
+else ifneq ($(filter $(TARGET_DEV_BOARD),odroidn2),)
+PRODUCT_BRAND := Hardkernel
+PRODUCT_MANUFACTURER := Hardkernel
 else
 PRODUCT_BRAND := SEI
 PRODUCT_MANUFACTURER := SEI
@@ -24,7 +29,7 @@ else
 PRODUCT_MODEL := ATV on $(TARGET_DEV_BOARD)
 endif
 
-ifneq ($(filter $(TARGET_DEV_BOARD), vim3),)
+ifneq ($(filter $(TARGET_DEV_BOARD),odroidn2 vim3),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 GPU_TYPE := gondul_ion
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
