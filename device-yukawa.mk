@@ -4,7 +4,7 @@ endif
 
 TARGET_DEV_BOARD ?= sei610
 
-ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
+ifneq ($(filter $(TARGET_DEV_BOARD),vim3 odroid-n2),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 GPU_TYPE := gondul_ion
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
