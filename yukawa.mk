@@ -15,6 +15,8 @@ endif
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
 TARGET_AML_SOC_MODEL := A311D
+else ifneq ($(filter $(TARGET_DEV_BOARD),odroid-n2),)
+TARGET_AML_SOC_MODEL := S922X
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
 TARGET_AML_SOC_MODEL := S905D3
 else ifneq ($(filter $(TARGET_DEV_BOARD),sei610),)
@@ -31,7 +33,7 @@ $(call inherit-product, $(LOCAL_PATH)/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
 
-ifneq ($(filter $(TARGET_AML_SOC_MODEL),A311D),)
+ifneq ($(filter $(TARGET_AML_SOC_MODEL),A311D S922X),)
 $(call soong_config_set,yukawa_mali,gpu_type,gondul_ion)
 endif
 

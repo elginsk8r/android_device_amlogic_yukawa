@@ -36,10 +36,12 @@ ifeq ($(TARGET_DEV_BOARD), vim3)
 AML_FIRMWARE := fip-collect-g12b-kvim3-khadas-vims-pie-20210111-211833
 else ifeq ($(TARGET_DEV_BOARD), vim3l)
 AML_FIRMWARE := fip-collect-g12a-kvim3l-khadas-vims-pie-20210111-211224
+else ifeq ($(TARGET_DEV_BOARD), odroid-n2)
+AML_FIRMWARE := fip-collect-g12b-odroidn2-odroidg12-v2015.01-20210906-162510
 else ifeq ($(TARGET_DEV_BOARD), sei610)
 AML_FIRMWARE := fip-collect-g12a-sm1_ac214_v1-amlogic-dev_9.2.1811_21-20191204-161855
 else
-AML_FIRMWARE ?= fip-collect-g12a-g12a_u200_v1-amlogic-dev_9.2.1811_21-20191203-113239
+AML_FIRMWARE := fip-collect-g12a-g12a_u200_v1-amlogic-dev_9.2.1811_21-20191203-113239
 endif
 
 # Prebuilt tools
