@@ -7,7 +7,7 @@ endif
 
 TARGET_DEV_BOARD ?= vim3l
 
-ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
+ifneq ($(filter $(TARGET_DEV_BOARD),vim3 odroid-n2),)
 GPU_TYPE := gondul_ion
 endif
 GPU_TYPE ?= dvalin_ion
@@ -41,7 +41,11 @@ PRODUCT_MODEL := ATV on yukawa
 endif
 
 PRODUCT_BRAND := Android
+ifneq ($(filter $(TARGET_DEV_BOARD),odroid-n2),)
+PRODUCT_MANUFACTURER := HARDKERNEL
+else
 PRODUCT_MANUFACTURER := KHADAS
+endif
 PRODUCT_NAME := yukawa
 PRODUCT_DEVICE := yukawa
 
@@ -49,6 +53,8 @@ PRODUCT_DEVICE := yukawa
 SOC_MANUFACTURER := Amlogic
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
 SOC_MODEL := A311D
+else ifneq ($(filter $(TARGET_DEV_BOARD),odroid-n2),)
+SOC_MODEL := S922X
 endif
 SOC_MODEL ?= S905D3
 
