@@ -6,6 +6,9 @@ TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/vim/board-info-vim3.txt
 else ifeq ($(TARGET_VIM3L), true)
 TARGET_BOOTLOADER_BOARD_NAME := vim3l
 TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/vim/board-info-vim3l.txt
+else ifeq ($(TARGET_ODROIDN2), true)
+TARGET_BOOTLOADER_BOARD_NAME := odroidn2
+TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/odroidn2/board-info.txt
 else
 TARGET_BOOTLOADER_BOARD_NAME := sei610
 TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/sei610/board-info.txt
