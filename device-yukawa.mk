@@ -11,6 +11,10 @@ GPU_TYPE := gondul_ion
 else ifeq ($(TARGET_VIM3L), true)
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=vim3l
 AUDIO_DEFAULT_OUTPUT := hdmi
+else ifeq ($(TARGET_ODROIDN2), true)
+PRODUCT_PROPERTY_OVERRIDES += ro.product.device=odroidn2
+AUDIO_DEFAULT_OUTPUT := hdmi
+GPU_TYPE := gondul_ion
 else
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=sei610
 endif
