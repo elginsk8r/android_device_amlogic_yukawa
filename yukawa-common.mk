@@ -5,6 +5,8 @@ ifeq ($(TARGET_VIM3), true)
 PRODUCT_BRAND := Khadas
 else ifeq ($(TARGET_VIM3L), true)
 PRODUCT_BRAND := Khadas
+else ifeq ($(TARGET_ODROIDN2), true)
+PRODUCT_BRAND := Hardkernel
 else
 PRODUCT_BRAND := SEI
 endif
@@ -19,6 +21,8 @@ ifeq ($(TARGET_VIM3), true)
 PRODUCT_MANUFACTURER := Khadas
 else ifeq ($(TARGET_VIM3L), true)
 PRODUCT_MANUFACTURER := Khadas
+else ifeq ($(TARGET_ODROIDN2), true)
+PRODUCT_MANUFACTURER := Hardkernel
 else
 PRODUCT_MANUFACTURER := SEI Robotics
 endif
