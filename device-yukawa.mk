@@ -6,11 +6,13 @@ ifeq ($(TARGET_VIM3), true)
 TARGET_DEV_BOARD := vim3
 else ifeq ($(TARGET_VIM3L), true)
 TARGET_DEV_BOARD := vim3l
+else ifeq ($(TARGET_ODROIDN2), true)
+TARGET_DEV_BOARD := odroidn2
 else ifeq ($(TARGET_DEV_BOARD),)
 TARGET_DEV_BOARD := sei610
 endif
 
-ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
+ifneq ($(filter $(TARGET_DEV_BOARD),vim3 odroidn2),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 GPU_TYPE := gondul_ion
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
