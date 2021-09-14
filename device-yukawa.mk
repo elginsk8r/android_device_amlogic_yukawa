@@ -15,6 +15,12 @@ PRODUCT_BRAND := Khadas
 PRODUCT_MANUFACTURER := Khadas
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=vim3l
 AUDIO_DEFAULT_OUTPUT := hdmi
+else ifeq ($(TARGET_ODROIDN2), true)
+PRODUCT_BRAND := Hardkernel
+PRODUCT_MANUFACTURER := Hardkernel
+PRODUCT_PROPERTY_OVERRIDES += ro.product.device=odroidn2
+AUDIO_DEFAULT_OUTPUT := hdmi
+GPU_TYPE := gondul_ion
 else
 PRODUCT_BRAND := SEI
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=sei610
