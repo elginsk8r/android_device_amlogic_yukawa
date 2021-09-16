@@ -23,3 +23,17 @@ PRODUCT_MAKEFILES := \
 COMMON_LUNCH_CHOICES := \
     yukawa_sei510-trunk_staging-userdebug \
     yukawa-trunk_staging-userdebug
+
+ifneq ($(SRC_EVERVOLV_DIR),)
+
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/ev_yukawa_sei510.mk \
+    $(LOCAL_DIR)/ev_yukawa32_sei510.mk \
+    $(LOCAL_DIR)/ev_yukawa.mk \
+    $(LOCAL_DIR)/ev_yukawa32.mk
+
+COMMON_LUNCH_CHOICES := \
+    ev_yukawa_sei510-trunk_staging-userdebug \
+    ev_yukawa-trunk_staging-userdebug
+
+endif

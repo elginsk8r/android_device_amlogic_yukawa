@@ -1,0 +1,7 @@
+[
+ {
+    "repository": "device/amlogic/yukawa-kernel",
+    "target_path": "device/amlogic/yukawa-kernel"
+    "remote": "aosp"
+ }
+]

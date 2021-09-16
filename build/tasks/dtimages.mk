@@ -5,8 +5,11 @@
 # dtbo.img, and the resulting $(PRODUCT_OUT)/dtbo.img will be created with
 # Android build system, by exploiting BOARD_PREBUILT_DTBOIMAGE variable.
 
+ifeq ($(INLINE_KERNEL_BUILDING),true)
+
 ifneq ($(filter yukawa%, $(TARGET_DEVICE)),)
 
+LOCAL_DTB := $(dir $(TARGET_PREBUILT_KERNEL))
 MKDTIMG := system/libufdt/utils/src/mkdtboimg.py
 DTBIMAGE := $(PRODUCT_OUT)/dtb.img
 DTBOIMAGE := $(PRODUCT_OUT)/$(DTBO_UNSIGNED)
@@ -52,5 +55,7 @@ include $(BUILD_PHONY_PACKAGE)
 droidcore: dtbimage dtboimage
 
 $(call dist-for-goals, dist_files, $(DTBOIMAGE))
+
+endif
 
 endif
