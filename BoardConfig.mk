@@ -188,3 +188,7 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 
 # Include stats logging code in LMKD
 TARGET_LMKD_STATS_LOG := true
+
+ifneq (,$(filter $(TARGET_PRODUCT),ev_yukawa))
+include device/amlogic/yukawa/BoardConfigEvervolv.mk
+endif

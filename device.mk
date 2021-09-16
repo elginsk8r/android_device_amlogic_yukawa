@@ -1,12 +1,9 @@
 PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
 
+TARGET_KERNEL_USE ?= 5.10
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
-else
-LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+TARGET_PREBUILT_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
 endif
-
-PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel
 
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
