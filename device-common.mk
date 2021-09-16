@@ -17,11 +17,15 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 # Enable Scoped Storage related
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# Bootanimation
+BOOT_ANIMATION_SIZE := 1080p
+
 DEVICE_PACKAGE_OVERLAYS := device/amlogic/yukawa/overlay
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Setup tablet build
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+$(call inherit-product, $(SRC_EVERVOLV_DIR)/config/common_full_tablet_wifionly.mk)
 else
 # Setup TV Build
 USE_OEM_TV_APP := true
@@ -29,6 +33,7 @@ $(call inherit-product, device/google/atv/products/atv_base.mk)
 PRODUCT_CHARACTERISTICS := tv
 PRODUCT_AAPT_PREF_CONFIG := tvdpi
 PRODUCT_IS_ATV := true
+$(call inherit-product, $(SRC_EVERVOLV_DIR)/config/common_full_tv.mk)
 endif
 
 PRODUCT_PACKAGES += llkd

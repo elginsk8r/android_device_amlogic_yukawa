@@ -167,9 +167,4 @@ DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest_kernel5.xml
 endif
 DEVICE_MATRIX_FILE := device/amlogic/yukawa/compatibility_matrix.xml
 
-ifneq ($(TARGET_SENSOR_MEZZANINE),)
-DEVICE_MANIFEST_FILE += device/amlogic/yukawa/sensorhal/manifest.xml
-endif
-
-# Generate an APEX image for experiment b/119800099.
-DEXPREOPT_GENERATE_APEX_IMAGE := true
+include device/amlogic/yukawa/BoardConfigEvervolv.mk
