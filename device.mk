@@ -2,14 +2,6 @@ PRODUCT_SOONG_NAMESPACES += \
     device/amlogic/yukawa \
     external/v4l2_codec2
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
-else
-LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel
-
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
 
