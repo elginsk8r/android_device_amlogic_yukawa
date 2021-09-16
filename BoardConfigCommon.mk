@@ -171,3 +171,7 @@ endif
 
 # Generate an APEX image for experiment b/119800099.
 DEXPREOPT_GENERATE_APEX_IMAGE := true
+
+ifneq ($(filter ev_yukawa%, $(TARGET_PRODUCT)),)
+include device/amlogic/yukawa/BoardConfigEvervolv.mk
+endif
