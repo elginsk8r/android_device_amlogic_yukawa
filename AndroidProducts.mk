@@ -19,3 +19,13 @@ PRODUCT_MAKEFILES := \
 
 COMMON_LUNCH_CHOICES := \
     yukawa-trunk_staging-userdebug
+
+ifneq ($(SRC_EVERVOLV_DIR),)
+
+PRODUCT_MAKEFILES += \
+    $(LOCAL_DIR)/ev_yukawa.mk
+
+COMMON_LUNCH_CHOICES += \
+    ev_yukawa-trunk_staging-userdebug
+
+endif
