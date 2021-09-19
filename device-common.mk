@@ -367,4 +367,4 @@ PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
 # Include Virtualization APEX
-$(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
+$(call inherit-product-if-exists, packages/modules/Virtualization/apex/product_packages.mk)
