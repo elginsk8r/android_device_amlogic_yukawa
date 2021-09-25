@@ -1,1 +1,2 @@
 require board=odroidn2
+require version-bootloader=U-Boot 2021.07-00051-g79f19c6307
