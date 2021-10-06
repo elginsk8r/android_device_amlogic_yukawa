@@ -1,0 +1,2 @@
+allow cameraserver dri_device:dir { open read write search getattr };
+allow cameraserver gpu_device:chr_file { open read write ioctl map getattr };

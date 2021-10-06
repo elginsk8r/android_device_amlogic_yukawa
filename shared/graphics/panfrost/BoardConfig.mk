@@ -14,6 +14,18 @@
 # limitations under the License.
 #
 
-ifneq ($(filter $(TARGET_USE_MALI_DRIVER),mali panfrost),)
-include device/amlogic/yukawa/shared/graphics/$(TARGET_USE_MALI_DRIVER)/BoardConfig.mk
+# Mesa
+BOARD_MESA3D_USES_MESON_BUILD := $(TARGET_BUILD_MESA)
+
+# GLES
+ifeq ($(BOARD_MESA3D_USES_MESON_BUILD),true)
+BOARD_MESA3D_GALLIUM_DRIVERS := panfrost
+endif
+
+# Hardware composer
+BOARD_USES_DRM_HWCOMPOSER := true
+
+# Vulkan
+ifeq ($(BOARD_MESA3D_USES_MESON_BUILD),true)
+BOARD_MESA3D_VULKAN_DRIVERS := panfrost
 endif

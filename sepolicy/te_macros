@@ -2,6 +2,7 @@
 # gpu_access(client_domain)
 # Allow client_domain to communicate with the GPU
 define(`gpu_access', `
+allow $1 dri_device:dir r_dir_perms;
 allow $1 sysfs_gpu:dir r_dir_perms;
 allow $1 gpu_device:chr_file { getattr ioctl map open read write };
 allow $1 graphics_device:chr_file { getattr };

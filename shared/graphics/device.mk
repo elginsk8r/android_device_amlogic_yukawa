@@ -14,4 +14,14 @@
 # limitations under the License.
 #
 
-include device/amlogic/yukawa/shared/graphics/mali/device.mk
+ifeq ($(TARGET_USE_PANFROST),true)
+TARGET_USE_MALI_DRIVER := panfrost
+endif
+
+ifeq ($(TARGET_USE_MALI_DRIVER),)
+TARGET_USE_MALI_DRIVER := mali
+endif
+
+ifneq ($(filter $(TARGET_USE_MALI_DRIVER),mali panfrost),)
+include device/amlogic/yukawa/shared/graphics/$(TARGET_USE_MALI_DRIVER)/device.mk
+endif
