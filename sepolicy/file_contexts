@@ -1,7 +1,9 @@
 # devices
 /dev/ttyAML0           u:object_r:console_device:s0
 /dev/mali0             u:object_r:gpu_device:s0
-/dev/dri/card0         u:object_r:gpu_device:s0
+/dev/dri               u:object_r:dri_device:s0
+/dev/dri/card[0-2]     u:object_r:graphics_device:s0
+/dev/dri/renderD128    u:object_r:gpu_device:s0
 /dev/block/zram0       u:object_r:swap_block_device:s0
 /dev/cec0              u:object_r:cec_device:s0
 /dev/i2c-0             u:object_r:led_device:s0
@@ -19,15 +21,18 @@
 /sys/firmware/devicetree/base/compatible                         u:object_r:sysfs_dt_compatible:s0
 
 # files in /vendor
-/(vendor|system/vendor)/bin/hw/android\.hardware\.composer\.hwc3-service\.drm\.meson   u:object_r:hal_graphics_composer_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.composer\.hwc3-service\.drm(.meson)?   u:object_r:hal_graphics_composer_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software u:object_r:hal_gatekeeper_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.graphics\.allocator-service\.minigbm u:object_r:hal_graphics_allocator_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.light-service\.yukawa u:object_r:hal_light_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.media\.c2@1\.0-service-v4l2(.*)? u:object_r:mediacodec_exec:s0
 /(vendor|system/vendor)/bin/set_hw_caps u:object_r:set_hw_caps_exec:s0
 /(vendor|system/vendor)/bin/suspend_blocker u:object_r:suspend_blocker_exec:s0
-/(vendor|system/vendor)/lib(64)?/hw/gralloc\.yukawa\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/android\.hardware\.graphics\.mapper@4\.0-impl\.minigbm\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/gralloc\.(minigbm|yukawa)\.so u:object_r:same_process_hal_file:s0
 /(vendor|system/vendor)/lib(64)?/hw/hdmi_cec\.yukawa\.so u:object_r:same_process_hal_file:s0
-/(vendor|system/vendor)/lib(64)?/hw/vulkan\.yukawa\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/mapper\.minigbm\.so u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/vulkan\.(panfrost|yukawa)\.so u:object_r:same_process_hal_file:s0
 /(vendor|system/vendor)/firmware(/.*)?        u:object_r:vendor_firmware_file:s0
 
 #Block devices

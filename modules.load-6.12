@@ -63,7 +63,6 @@ meson_uart.ko
 meson-rng.ko
 cctrng.ko
 virtio_console.ko
-mali_kbase.ko
 drm_display_helper.ko
 dw-hdmi.ko
 dw-hdmi-ahb-audio.ko

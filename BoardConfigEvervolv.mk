@@ -32,6 +32,7 @@ endif
 ifeq ($(TARGET_KERNEL_USE_GKI), true)
 BOARD_KERNEL_MODULES_LOAD := \
     device/amlogic/yukawa/modules.load-$(TARGET_KERNEL_USE) \
+    device/amlogic/yukawa/modules.load.$(if $(TARGET_USE_PANFROST),panfrost,mali) \
     $(if $(TARGET_USES_NANOHUB_SENSORHAL),device/amlogic/yukawa/modules.load.nanohub,)
 BOARD_KERNEL_MODULES_LOAD := $(strip $(shell cat $(BOARD_KERNEL_MODULES_LOAD)))
 BOARD_RECOVERY_KERNEL_MODULES_LOAD := $(BOARD_KERNEL_MODULES_LOAD)
