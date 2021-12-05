@@ -1,6 +1,9 @@
 #
 # Product-specific compile-time definitions.
 #
+
+COMMON_PATH := device/amlogic/yukawa
+
 # The generic product target doesn't have any hardware-specific pieces.
 # Primary Arch
 TARGET_ARCH := arm64
@@ -89,9 +92,9 @@ BOARD_SUPER_IMAGE_IN_UPDATE_PACKAGE := true
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 ifeq ($(TARGET_AVB_ENABLE), true)
 ifeq ($(TARGET_USE_AB_SLOT), true)
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa.avb.ab
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/fstab.yukawa.avb.ab
 else
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa.avb
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/fstab.recovery.yukawa.avb
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
 endif
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
@@ -100,9 +103,9 @@ BOARD_AVB_RECOVERY_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 2
 else
 ifeq ($(TARGET_USE_AB_SLOT), true)
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/fstab.yukawa
 else
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/fstab.recovery.yukawa
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
 endif
 endif
@@ -148,23 +151,23 @@ BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 TARGET_USES_MKE2FS := true
 TARGET_USES_HWC2 := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
 
 BOARD_SEPOLICY_DIRS += \
-        device/amlogic/yukawa/sepolicy
+        $(COMMON_PATH)/sepolicy
 
-DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 ifeq ($(TARGET_USE_AB_SLOT), true)
-DEVICE_MANIFEST_FILE += device/amlogic/yukawa/hal/bootctrl/bootctrl.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/hal/bootctrl/bootctrl.xml
 endif
 
 ifneq ($(TARGET_KERNEL_USE), 4.19)
-DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest_kernel5.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest_kernel5.xml
 endif
-DEVICE_MATRIX_FILE := device/amlogic/yukawa/compatibility_matrix.xml
+DEVICE_MATRIX_FILE := $(COMMON_PATH)/compatibility_matrix.xml
 
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
-DEVICE_MANIFEST_FILE += device/amlogic/yukawa/sensorhal/manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/sensorhal/manifest.xml
 endif
 
 # Generate an APEX image for experiment b/119800099.
