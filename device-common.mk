@@ -68,7 +68,8 @@ PRODUCT_PACKAGES += \
 endif
 
 # Dynamic partitions
-PRODUCT_BUILD_SUPER_PARTITION := true
+PRODUCT_BUILD_SUPER_PARTITION ?= true
+ifeq ($(PRODUCT_BUILD_SUPER_PARTITION), true)
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
 
@@ -76,15 +77,6 @@ PRODUCT_PACKAGES += \
 	android.hardware.fastboot@1.0 \
 	android.hardware.fastboot@1.0-impl-mock \
 	fastbootd
-
-# All VNDK libraries (HAL interfaces, VNDK, VNDK-SP, LL-NDK)
-PRODUCT_SHIPPING_API_LEVEL := 29
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
-PRODUCT_PACKAGES += vndk_package
-
-PRODUCT_PACKAGES += \
-    android.hardware.health@2.0-service.yukawa \
-    android.hardware.health@2.0-service
 
 ifeq ($(TARGET_USE_AB_SLOT), true)
 ifeq ($(TARGET_AVB_ENABLE), true)
@@ -107,19 +99,32 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/fstab.yukawa:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.yukawa
 endif
 endif
+endif
+
+ifeq ($(TARGET_NO_RECOVERY), true)
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/init.recovery.hardware.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.yukawa.rc
+endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.yukawa.rc \
     $(LOCAL_PATH)/init.yukawa.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.yukawa.usb.rc \
-    $(LOCAL_PATH)/init.recovery.hardware.rc:recovery/root/init.recovery.yukawa.rc \
     $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc \
     $(LOCAL_PATH)/wifi/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/binaries/bt-wifi-firmware/BCM.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/BCM4359C0.hcd \
     $(LOCAL_PATH)/binaries/bt-wifi-firmware/fw_bcm4359c0_ag.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/fw_bcm4359c0_ag.bin \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/nvram.txt \
+    $(LOCAL_PATH)/binaries/bt-wifi-firmware/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/nvram.txt
 
+# All VNDK libraries (HAL interfaces, VNDK, VNDK-SP, LL-NDK)
+PRODUCT_SHIPPING_API_LEVEL := 29
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+PRODUCT_PACKAGES += vndk_package
+
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.0-service.yukawa \
+    android.hardware.health@2.0-service
 
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Use Launcher3QuickStep
