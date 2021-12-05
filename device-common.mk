@@ -1,12 +1,6 @@
-PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
+PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
-else
-LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel
+$(call inherit-product, $(LOCAL_PATH)/device-kernel.mk)
 
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
@@ -17,7 +11,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 # Enable Scoped Storage related
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-DEVICE_PACKAGE_OVERLAYS := device/amlogic/yukawa/overlay
+DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Setup tablet build
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
@@ -84,6 +78,8 @@ PRODUCT_PACKAGES += \
 	fastbootd
 
 # All VNDK libraries (HAL interfaces, VNDK, VNDK-SP, LL-NDK)
+PRODUCT_SHIPPING_API_LEVEL := 29
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_PACKAGES += vndk_package
 
 PRODUCT_PACKAGES += \
@@ -160,6 +156,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
 
+GPU_TYPE ?= dvalin_ion
 PRODUCT_PACKAGES +=  libGLES_mali
 PRODUCT_PACKAGES +=  libGLES_android
 
@@ -277,7 +274,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += stm32_flash nanoapp_cmd nanotool
 
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/init.common.nanohub.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.nanohub.rc
+    $(LOCAL_PATH)/init.common.nanohub.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.nanohub.rc
 
 # Copy sensors config file(s)
 PRODUCT_COPY_FILES += \
@@ -327,7 +324,7 @@ PRODUCT_COPY_FILES +=  \
 # audio policy configuration
 USE_XML_AUDIO_POLICY_CONF := 1
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
+    $(LOCAL_PATH)/hal/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
     frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml \
@@ -338,23 +335,23 @@ PRODUCT_COPY_FILES += \
 AUDIO_DEFAULT_OUTPUT ?= speaker
 ifeq ($(AUDIO_DEFAULT_OUTPUT),hdmi)
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/audio/audio_policy_configuration_hdmi_only.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
+    $(LOCAL_PATH)/hal/audio/audio_policy_configuration_hdmi_only.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
 DEVICE_PACKAGE_OVERLAYS += \
-    device/amlogic/yukawa/hal/audio/overlay_hdmi_only
+    $(LOCAL_PATH)/hal/audio/overlay_hdmi_only
 else
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
+    $(LOCAL_PATH)/hal/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
 endif
 
 # Copy media codecs config file
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/media_xml/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    $(LOCAL_PATH)/media_xml/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml
 
 # Enable BT Pairing with button BTN_0 (key 256)
 PRODUCT_PACKAGES += YukawaService YukawaAndroidOverlay
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/input/Vendor_0001_Product_0001.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Vendor_0001_Product_0001.kl
+    $(LOCAL_PATH)/input/Vendor_0001_Product_0001.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Vendor_0001_Product_0001.kl
 
 
 # Light HAL
@@ -366,7 +363,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-external-service
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
+    $(LOCAL_PATH)/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
 # Include Virtualization APEX
 $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
