@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="config_statusBarIconsToExclude" translatable="false">
+        <item>@*android:string/status_bar_rotate</item>
+        <item>@*android:string/status_bar_headset</item>
+        <item>@string/status_bar_battery</item>
+    </string-array>
+    <string name="quick_settings_tiles_default" translatable="false">
+        internet,bt,flashlight,dnd,alarm,airplane,controls,wallet,rotation,cast,screenrecord,mictoggle,cameratoggle
+    </string>
+    <string name="quick_settings_tiles_stock" translatable="false">
+        internet,wifi,cell,bt,flashlight,dnd,alarm,airplane,controls,wallet,rotation,cast,screenrecord,mictoggle,cameratoggle,location,hotspot,inversion,saver,dark,work,night,reverse,reduce_brightness
+    </string>
+</resources>
