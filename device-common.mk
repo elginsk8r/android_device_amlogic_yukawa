@@ -163,7 +163,11 @@ PRODUCT_PACKAGES += \
     libhidltransport \
     libhwbinder 
 
+ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
+PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=480
+else
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
+endif
 
 PRODUCT_PACKAGES +=  libGLES_mali
 PRODUCT_PACKAGES +=  libGLES_android
