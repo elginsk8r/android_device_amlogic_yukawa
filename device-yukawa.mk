@@ -1,7 +1,3 @@
-ifndef TARGET_KERNEL_USE
-TARGET_KERNEL_USE := 5.10
-endif
-
 ifeq ($(TARGET_VIM3), true)
 TARGET_DEV_BOARD := vim3
 else ifeq ($(TARGET_VIM3L), true)
@@ -23,14 +19,6 @@ $(call inherit-product, device/amlogic/yukawa/device-common.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
 GPU_TYPE ?= dvalin_ion
-
-BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)
-
-ifeq ($(TARGET_PREBUILT_DTB),)
-LOCAL_DTB := $(BOARD_KERNEL_DTB)
-else
-LOCAL_DTB := $(TARGET_PREBUILT_DTB)
-endif
 
 # Feature permissions
 PRODUCT_COPY_FILES += \
