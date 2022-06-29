@@ -130,6 +130,7 @@ else
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa
 endif
 endif
+TARGET_RECOVERY_WIPE := device/amlogic/yukawa/recovery.wipe
 BOARD_INCLUDE_RECOVERY_DTBO := true
 
 BOARD_KERNEL_OFFSET      := 0x1080000
