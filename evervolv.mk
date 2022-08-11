@@ -23,6 +23,9 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 BUILD_FINGERPRINT := ADT-3/adt3/adt3:12/STT1.211025.001.Z4/7928920:user/release-keys
 endif
 
+# Kernel
+TARGET_NO_KERNEL_OVERRIDE := false
+
 # VNDK
 PRODUCT_PACKAGES += \
     evervolv_compatibility_matrix.xml

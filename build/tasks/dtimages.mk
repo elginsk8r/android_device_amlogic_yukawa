@@ -5,7 +5,7 @@
 # dtbo.img, and the resulting $(PRODUCT_OUT)/dtbo.img will be created with
 # Android build system, by exploiting BOARD_PREBUILT_DTBOIMAGE variable.
 
-ifeq ($(TARGET_NO_KERNEL_OVERRIDE),true)
+ifeq ($(wildcard vendor/*/build/tasks/kernel.mk),)
 
 ifneq ($(filter yukawa%, $(TARGET_DEVICE)),)
 
