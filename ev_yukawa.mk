@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+TARGET_NO_KERNEL_OVERRIDE := false
+
 # Inherit device configuration
 $(call inherit-product, device/amlogic/yukawa/yukawa.mk)
 
