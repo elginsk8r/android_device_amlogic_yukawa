@@ -10,7 +10,21 @@ else ifeq ($(TARGET_DEV_BOARD),)
 TARGET_DEV_BOARD := sei610
 endif
 
-ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
+ifneq ($(filter $(TARGET_DEV_BOARD),vim3 vim3l),)
+PRODUCT_BRAND := Khadas
+PRODUCT_MANUFACTURER := Khadas
+else
+PRODUCT_BRAND := SEI
+PRODUCT_MANUFACTURER := SEI
+endif
+
+ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
+PRODUCT_MODEL := AOSP on $(TARGET_DEV_BOARD)
+else
+PRODUCT_MODEL := ATV on $(TARGET_DEV_BOARD)
+endif
+
+ifneq ($(filter $(TARGET_DEV_BOARD), vim3),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 GPU_TYPE := gondul_ion
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
@@ -43,3 +57,7 @@ ifneq ($(filter $(TARGET_DEV_BOARD),sei610),)
 PRODUCT_PACKAGES += \
     YukawaHotwordMicToggleProvider
 endif
+
+# Product API
+PRODUCT_SHIPPING_API_LEVEL := 31
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
