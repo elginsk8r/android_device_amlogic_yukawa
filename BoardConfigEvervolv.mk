@@ -27,3 +27,7 @@ TARGET_KERNEL_DTB := \
     amlogic/meson-g12b-odroid-n2.dtb \
     amlogic/meson-g12b-odroid-n2-android.dtb
 TARGET_KERNEL_SOURCE := kernel/amlogic/yukawa
+
+ifeq ($(filter $(TARGET_DEV_BOARD),odroidn2),)
+BOARD_VENDOR_KERNEL_MODULES_LOAD := bcmdhd.ko
+endif
