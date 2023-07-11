@@ -70,9 +70,6 @@ PRODUCT_PACKAGES += \
 	android.hardware.fastboot@1.1-impl-mock \
 	fastbootd
 
-# All VNDK libraries (HAL interfaces, VNDK, VNDK-SP, LL-NDK)
-PRODUCT_PACKAGES += vndk_package
-
 ifeq ($(TARGET_USE_AB_SLOT), true)
 ifeq ($(TARGET_AVB_ENABLE), true)
 PRODUCT_COPY_FILES += \
