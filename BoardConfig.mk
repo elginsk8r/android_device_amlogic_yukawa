@@ -141,7 +141,7 @@ BOARD_MKBOOTIMG_ARGS     += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_BOOT_HEADER_VERSION := 2
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 
-BOARD_KERNEL_CMDLINE += no_console_suspend console=ttyAML0,115200 earlycon
+BOARD_KERNEL_CMDLINE += console=ttyAML0,115200 earlycon
 BOARD_KERNEL_CMDLINE += printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/ffe07000.mmc
 BOARD_KERNEL_CMDLINE += init=/init
