@@ -26,12 +26,6 @@ TARGET_BOARD_PLATFORM := yukawa
 TARGET_BOOTLOADER_BOARD_NAME := $(TARGET_DEV_BOARD)
 TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/board-info/board-info-$(TARGET_DEV_BOARD).txt
 
-# Vulkan
-BOARD_INSTALL_VULKAN := true
-
-# OpenCL
-BOARD_INSTALL_OPENCL := true
-
 # BT configs
 BOARD_HAVE_BLUETOOTH := true
 
@@ -169,6 +163,9 @@ endif
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/sensorhal/manifest.xml
 endif
+
+# Graphics
+include device/amlogic/yukawa/shared/graphics/BoardConfig.mk
 
 # Generate an APEX image for experiment b/119800099.
 DEXPREOPT_GENERATE_APEX_IMAGE := true

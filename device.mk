@@ -212,37 +212,7 @@ PRODUCT_PACKAGES += \
 
 # Graphics #
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
-
-PRODUCT_PACKAGES += \
-    libGLES_android \
-    libGLES_mali
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hardware.egl=mali \
-    ro.opengles.version=196610
-
-# Vulkan
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml
-
-PRODUCT_PACKAGES +=  vulkan.yukawa.so
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hardware.vulkan=yukawa
-
-PRODUCT_PACKAGES += \
-    gralloc.yukawa \
-    android.hardware.graphics.allocator@2.0-service \
-    android.hardware.graphics.allocator@2.0-impl \
-    android.hardware.graphics.mapper@2.0-impl-2.1
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hardware.gralloc=yukawa
-
-# Hardware Composer HAL
-PRODUCT_PACKAGES += android.hardware.composer.hwc3-service.drm.meson
+include $(LOCAL_PATH)/shared/graphics/device.mk
 
 # DRM Service
 PRODUCT_PACKAGES += \
