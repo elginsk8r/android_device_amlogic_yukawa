@@ -169,7 +169,9 @@ PRODUCT_PACKAGES += \
     libhidltransport \
     libhwbinder
 
-PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=320 \
+    ro.hardware.egl=mali
 
 PRODUCT_PACKAGES +=  libGLES_mali
 PRODUCT_PACKAGES +=  libGLES_android
