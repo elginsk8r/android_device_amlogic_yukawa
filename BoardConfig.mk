@@ -18,6 +18,8 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 TARGET_SUPPORTS_64_BIT_APPS := true
 
 TARGET_BOARD_PLATFORM := yukawa
+TARGET_BOOTLOADER_BOARD_NAME := $(TARGET_DEV_BOARD)
+TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/board-info/board-info-$(TARGET_DEV_BOARD).txt
 
 # Vulkan
 BOARD_INSTALL_VULKAN := true
@@ -53,7 +55,6 @@ AB_OTA_PARTITIONS += \
     vendor \
     vbmeta
 endif
-
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 ))) # 8 MiB
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE ?= ext4
@@ -79,6 +80,9 @@ endif
 BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SIZE) - (4 * 1024 * 1024) )))  # Reserve 4M for DAP metadata
 BOARD_SUPER_PARTITION_METADATA_DEVICE := super
 # BOARD_SUPER_IMAGE_IN_UPDATE_PACKAGE := true
+
+# Userdata partition
+BOARD_USERDATAIMAGE_PARTITION_SIZE :=  $(shell echo $$(( 2000 * 1024 * 1024 )))
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
@@ -121,7 +125,7 @@ BOARD_PREBUILT_DTBOIMAGE = $(PRODUCT_OUT)/$(DTBO_UNSIGNED)
 
 BOARD_KERNEL_CMDLINE += no_console_suspend console=ttyAML0,115200 earlycon
 BOARD_KERNEL_CMDLINE += printk.devkmsg=on
-BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/ffe07000.mmc 
+BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/ffe07000.mmc
 BOARD_KERNEL_CMDLINE += init=/init
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
 BOARD_KERNEL_CMDLINE += androidboot.hardware=yukawa
