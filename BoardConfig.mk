@@ -164,9 +164,6 @@ BOARD_VENDOR_SEPOLICY_DIRS += \
 
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
 
-ifneq ($(TARGET_KERNEL_USE), 4.19)
-DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest_kernel5.xml
-endif
 DEVICE_MATRIX_FILE := device/amlogic/yukawa/compatibility_matrix.xml
 
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
