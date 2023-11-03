@@ -22,6 +22,7 @@ ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Setup tablet build
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+PRODUCT_CHARACTERISTICS := tablet
 # Packages to invoke RC pairing
 PRODUCT_PACKAGES += YukawaService YukawaAndroidOverlay
 else
@@ -29,7 +30,6 @@ else
 USE_OEM_TV_APP := true
 $(call inherit-product, device/google/atv/products/atv_base.mk)
 PRODUCT_CHARACTERISTICS := tv
-PRODUCT_AAPT_PREF_CONFIG := tvdpi
 PRODUCT_IS_ATV := true
 endif
 
