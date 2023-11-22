@@ -38,3 +38,6 @@ BOARD_DTBO_CFG := device/amlogic/yukawa/yukawa-dtbo.cfg
 $(foreach f,$(wildcard $(AMLOGIC_DTB)),\
        $(eval TARGET_KERNEL_DTB += amlogic/$(f)-android.dtb))
 endif
+
+# Partitions
+-include $(SRC_EVERVOLV_DIR)/build/target/board/BoardConfigReservedSize.mk
