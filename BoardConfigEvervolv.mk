@@ -8,3 +8,6 @@ TARGET_KERNEL_SOURCE := kernel/amlogic/yukawa
 
 # Kernel Image
 BOARD_KERNEL_IMAGE_NAME := Image.lz4
+
+# Partitions
+-include $(SRC_EVERVOLV_DIR)/build/target/board/BoardConfigReservedSize.mk
