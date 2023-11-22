@@ -12,3 +12,6 @@ BOARD_KERNEL_IMAGE_NAME := Image.lz4
 TARGET_KERNEL_CONFIG := meson_defconfig
 TARGET_KERNEL_SOURCE := kernel/amlogic/yukawa
 TARGET_NO_KERNEL_OVERRIDE := true
+
+# Partitions
+-include $(SRC_EVERVOLV_DIR)/build/target/board/BoardConfigReservedSize.mk
