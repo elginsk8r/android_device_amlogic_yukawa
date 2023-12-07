@@ -17,7 +17,12 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 # Enable Scoped Storage related
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-DEVICE_PACKAGE_OVERLAYS := device/amlogic/yukawa/overlay
+# Overlays
+PRODUCT_PACKAGES += \
+    BluetoothResTarget \
+    FrameworksResTarget \
+    SettingsProviderResTarget
+
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Setup tablet build
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
@@ -210,11 +215,13 @@ PRODUCT_COPY_FILES += \
 
 AUDIO_DEFAULT_OUTPUT ?= speaker
 ifeq ($(AUDIO_DEFAULT_OUTPUT),hdmi)
+PRODUCT_PACKAGES += \
+    FrameworksResAudio
+
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/audio/mixer_paths_hdmi_only.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
     device/amlogic/yukawa/hal/audio/audio_policy_configuration_hdmi_only.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
-DEVICE_PACKAGE_OVERLAYS += \
-    device/amlogic/yukawa/hal/audio/overlay_hdmi_only
+
 TARGET_USE_HDMI_AUDIO ?= true
 else
 PRODUCT_COPY_FILES += \
