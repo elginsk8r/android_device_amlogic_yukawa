@@ -85,7 +85,6 @@ BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 2304 * 1024 * 1024 )))
 endif
 BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SIZE) - (4 * 1024 * 1024) )))  # Reserve 4M for DAP metadata
 BOARD_SUPER_PARTITION_METADATA_DEVICE := super
-# BOARD_SUPER_IMAGE_IN_UPDATE_PACKAGE := true
 
 # Userdata partition
 BOARD_USERDATAIMAGE_PARTITION_SIZE :=  $(shell echo $$(( 2000 * 1024 * 1024 )))
@@ -127,7 +126,6 @@ DTBO_UNSIGNED := dtbo-unsigned.img
 # so that it is resolved later
 BOARD_PREBUILT_DTBOIMAGE = $(PRODUCT_OUT)/$(DTBO_UNSIGNED)
 
-
 BOARD_KERNEL_CMDLINE += no_console_suspend console=ttyAML0,115200 earlycon
 BOARD_KERNEL_CMDLINE += printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/ffe07000.mmc
@@ -157,6 +155,7 @@ BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 TARGET_USES_MKE2FS := true
 TARGET_USES_HWC2 := true
+
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
 
 BOARD_VENDOR_SEPOLICY_DIRS += \
