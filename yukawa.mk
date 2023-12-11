@@ -33,12 +33,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/audio/speaker_eq_sei610.fir:$(TARGET_COPY_OUT_VENDOR)/etc/speaker_eq_sei610.fir
 
-# Hotword Mic Toggle Provider
-ifneq ($(filter $(TARGET_DEV_BOARD),sei610),)
-PRODUCT_PACKAGES += \
-    YukawaHotwordMicToggleProvider
-endif
-
 PRODUCT_SHIPPING_API_LEVEL := 31
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
