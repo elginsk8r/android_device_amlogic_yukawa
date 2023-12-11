@@ -17,9 +17,6 @@ on fs
     mount_all /vendor/etc/fstab.yukawa
     swapon_all /vendor/etc/fstab.yukawa
 
-on post-fs
-    setprop ro.hardware.hwcomposer drm_meson
-
 on zygote-start
     mkdir /data/vendor/wifi 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
