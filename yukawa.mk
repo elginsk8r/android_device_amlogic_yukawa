@@ -39,10 +39,6 @@ PRODUCT_PACKAGES += \
     YukawaHotwordMicToggleProvider
 endif
 
-# Include namespaces for non-AB updater
-PRODUCT_SOONG_NAMESPACES += bootable/deprecated-ota
-AB_OTA_UPDATER := false
-
 PRODUCT_SHIPPING_API_LEVEL := 31
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 

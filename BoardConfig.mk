@@ -45,9 +45,11 @@ endif
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := false
 
-ifeq ($(TARGET_USE_AB_SLOT), true)
+ifneq ($(TARGET_USE_AB_SLOT), true)
+PRODUCT_SOONG_NAMESPACES += bootable/deprecated-ota
+AB_OTA_UPDATER := false
+else
 BOARD_USES_RECOVERY_AS_BOOT := true
-AB_OTA_UPDATER := true
 
 AB_OTA_PARTITIONS += \
     boot \
@@ -107,7 +109,6 @@ TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa
 endif
 endif
 BOARD_INCLUDE_RECOVERY_DTBO := true
-
 
 BOARD_KERNEL_OFFSET      := 0x1080000
 BOARD_KERNEL_TAGS_OFFSET := 0x1000000
