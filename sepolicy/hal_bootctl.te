@@ -1,0 +1,10 @@
+# Opening /dev directory from bootctl
+allow hal_bootctl device:dir r_dir_perms;
+
+# Allow boot_control_hal to get attributes on all the A/B partitions.
+allow hal_bootctl boot_block_device:blk_file rw_file_perms;
+allow hal_bootctl dtbo_block_device:blk_file getattr;
+allow hal_bootctl vbmeta_block_device:blk_file getattr;
+allow hal_bootctl system_block_device:blk_file getattr;
+allow hal_bootctl recovery_block_device:blk_file getattr;
+allow hal_bootctl_server misc_block_device:blk_file rw_file_perms;
