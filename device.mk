@@ -103,8 +103,8 @@ endif
 endif
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.yukawa.rc \
-    $(LOCAL_PATH)/init.yukawa.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.yukawa.usb.rc \
+    $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.rc \
+    $(LOCAL_PATH)/init.yukawa.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.usb.rc \
     $(LOCAL_PATH)/init.recovery.hardware.rc:recovery/root/init.recovery.yukawa.rc \
     $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
