@@ -1,5 +1,13 @@
+type bootloader_block_device, dev_type;
+
 type cec_device, dev_type;
 
 allow domain cec_device:chr_file rw_file_perms;
 
+type env_block_device, dev_type;
+
 type led_device, dev_type;
+
+type logo_block_device, dev_type;
+
+type vbmeta_block_device, dev_type;

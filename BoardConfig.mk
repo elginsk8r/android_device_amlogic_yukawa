@@ -55,8 +55,10 @@ AB_OTA_PARTITIONS += \
     boot \
     dtbo \
     system \
-    vendor \
-    vbmeta
+    vendor
+ifeq ($(TARGET_AVB_ENABLE), true)
+AB_OTA_PARTITIONS += vbmeta
+endif
 endif
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 ))) # 8 MiB
