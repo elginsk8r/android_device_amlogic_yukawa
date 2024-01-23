@@ -41,38 +41,28 @@ PRODUCT_PACKAGES += \
     otapreopt_script \
     cppreopts.sh \
     update_engine \
-    update_verifier
-AB_OTA_POSTINSTALL_CONFIG += \
-    RUN_POSTINSTALm=true \
-    POSTINSTALL_PATH=system/bin/otapreopt_script \
-    FILESYSTEM_TYPE=ext4 \
-    POSTINSTALL_OPTIONAL=true
-
-PRODUCT_PACKAGES += \
     update_engine_sideload \
+    update_verifier \
     sg_write_buffer \
-    f2fs_io
+    f2fs_io \
+    check_f2fs
 
 # The following modules are included in debuggable builds only.
 PRODUCT_PACKAGES_DEBUG += \
     bootctl \
-    update_engine_client
+    update_engine_client \
+    SystemUpdaterSample
 
-# Write flags to the vendor space in /misc partition.
+# Userdata Checkpointing OTA GC
 PRODUCT_PACKAGES += \
-    misc_writer
-
-PRODUCT_PACKAGES += \
-    fs_config_dirs \
-    fs_config_files
+    checkpoint_gc
 
 # Boot control
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl \
     android.hardware.boot@1.2-impl.recovery \
     android.hardware.boot@1.2-service \
-    bootctrl.yukawa.recovery \
-    bootctrl.yukawa
+    bootctrl.default
 endif
 
 # Dynamic partitions
