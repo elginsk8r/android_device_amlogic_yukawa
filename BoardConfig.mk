@@ -15,7 +15,8 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 
-TARGET_SUPPORTS_64_BIT_APPS := true
+# 64 bit mediadrmserver
+TARGET_ENABLE_MEDIADRM_64 := true
 
 TARGET_BOARD_PLATFORM := yukawa
 TARGET_BOOTLOADER_BOARD_NAME := $(TARGET_DEV_BOARD)
@@ -88,9 +89,11 @@ BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SI
 BOARD_USES_METADATA_PARTITION := true
 
 # Userdata partition
+TARGET_COPY_OUT_DATA := data
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_USERDATAIMAGE_PARTITION_SIZE :=  $(shell echo $$(( 2000 * 1024 * 1024 )))
+TARGET_USERIMAGES_SPARSE_F2FS_DISABLED ?= false
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
@@ -155,14 +158,17 @@ endif
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amlogic/yukawa/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := build/make/target/board/mainline_arm64/bluetooth
 
 BOARD_VENDOR_SEPOLICY_DIRS += \
         device/amlogic/yukawa/sepolicy
 
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
 
-DEVICE_MATRIX_FILE := device/amlogic/yukawa/compatibility_matrix.xml
+DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += device/amlogic/yukawa/framework_compatibility_matrix.xml
+ifneq ($(TARGET_USE_TABLET_LAUNCHER), true)
+DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += device/amlogic/yukawa/tv_framework_compatibility_matrix.xml
+endif
 
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/sensorhal/manifest.xml
