@@ -61,10 +61,8 @@ PRODUCT_PACKAGES += \
 
 # Boot control
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.2-impl \
-    android.hardware.boot@1.2-impl.recovery \
-    android.hardware.boot@1.2-service \
-    bootctrl.default
+    com.android.hardware.boot \
+    android.hardware.boot-service.default_recovery
 endif
 
 # Dynamic partitions
@@ -73,8 +71,8 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
 
 PRODUCT_PACKAGES += \
-	android.hardware.fastboot@1.0 \
-	android.hardware.fastboot@1.0-impl-mock \
+	android.hardware.fastboot@1.1 \
+	android.hardware.fastboot@1.1-impl-mock \
 	fastbootd
 
 # All VNDK libraries (HAL interfaces, VNDK, VNDK-SP, LL-NDK)
@@ -152,25 +150,6 @@ PRODUCT_PACKAGES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += android.hardware.bluetooth-service.default
-PRODUCT_PROPERTY_OVERRIDES += \
-    bluetooth.core.gap.le.privacy.enabled=false \
-    bluetooth.profile.asha.central.enabled=true \
-    bluetooth.profile.a2dp.source.enabled=true \
-    bluetooth.profile.avrcp.target.enabled=true \
-    bluetooth.profile.bap.broadcast.assist.enabled=true \
-    bluetooth.profile.bap.unicast.client.enabled=true \
-    bluetooth.profile.bas.client.enabled=true \
-    bluetooth.profile.ccp.server.enabled=true \
-    bluetooth.profile.csip.set_coordinator.enabled=true \
-    bluetooth.profile.gatt.enabled=true \
-    bluetooth.profile.hap.client.enabled=true \
-    bluetooth.profile.hfp.ag.enabled=true \
-    bluetooth.profile.hid.host.enabled=true \
-    bluetooth.profile.mcp.server.enabled=true \
-    bluetooth.profile.opp.enabled=true \
-    bluetooth.profile.pan.nap.enabled=true \
-    bluetooth.profile.pan.panu.enabled=true \
-    bluetooth.profile.vcp.controller.enabled=true
 
 # Wifi
 PRODUCT_PACKAGES += libwpa_client wpa_supplicant hostapd wificond wpa_cli
@@ -186,7 +165,8 @@ PRODUCT_COPY_FILES += \
 
 # Build default bluetooth a2dp and usb audio HALs
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth.audio@2.0-impl \
+    android.hardware.bluetooth.audio@2.1-impl \
+    android.hardware.bluetooth.audio-impl \
     audio.usb.default \
     audio.primary.yukawa \
     audio.r_submix.default \
@@ -227,7 +207,7 @@ PRODUCT_COPY_FILES += \
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
-    android.hardware.audio@7.0-impl \
+    android.hardware.audio@7.1-impl \
     android.hardware.audio.effect@7.0-impl \
     android.hardware.soundtrigger@2.3-impl
 
@@ -255,6 +235,10 @@ PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml \
     device/amlogic/yukawa/hal/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
 endif
+
+# CAS AIDL HAL
+PRODUCT_PACKAGES += \
+    android.hardware.cas-service.example
 
 # Graphics #
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
@@ -295,7 +279,7 @@ PRODUCT_PACKAGES += \
 # DRM Service
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.widevine \
-    android.hardware.drm-service.clearkey
+    android.hardware.drm@latest-service.clearkey
 
 # CEC on ATV only
 ifeq ($(PRODUCT_IS_ATV), true)
@@ -318,6 +302,9 @@ PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4 \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
+# Thermal HAL
+PRODUCT_PACKAGES += android.hardware.thermal-service.example
+
 # PowerHAL
 PRODUCT_PACKAGES += \
     android.hardware.power-service.example
@@ -328,8 +315,12 @@ PRODUCT_PACKAGES += \
 
 # Health: Install default binderized implementation to vendor.
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl-cuttlefish \
-    android.hardware.health@2.1-service
+    android.hardware.health-service.example \
+    android.hardware.health-service.example_recovery
+
+# Health Storage
+PRODUCT_PACKAGES += \
+    android.hardware.health.storage-service.default
 
 # Sensor HAL
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
@@ -373,13 +364,10 @@ PRODUCT_COPY_FILES += \
 endif
 endif
 
-# Software Gatekeeper HAL
+# Software Security HAL
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software
-
-PRODUCT_PACKAGES += \
-    android.hardware.keymaster@3.0-impl \
-    android.hardware.keymaster@3.0-service
+    android.hardware.gatekeeper@1.0-service.software \
+    android.hardware.security.keymint-service
 
 # USB
 PRODUCT_PACKAGES += \
@@ -419,8 +407,8 @@ PRODUCT_PACKAGES += \
     lights-yukawa
 
 # Enable USB Camera
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-external-service
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-impl
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-external-service
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
