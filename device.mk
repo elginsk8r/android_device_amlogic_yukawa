@@ -418,3 +418,6 @@ PRODUCT_COPY_FILES +=  \
 
 # Include Virtualization APEX
 $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
+
+# ro.frp.pst points to a partition that contains factory reset protection information.
+PRODUCT_VENDOR_PROPERTIES += ro.frp.pst=/dev/block/by-name/frp
