@@ -5,4 +5,4 @@ vendor				/vendor		ext4	noatime,ro,errors=panic						wait,slotselect,avb,logical
 /dev/block/by-name/misc		/misc		emmc	defaults							defaults
 */block/mmcblk0			auto		auto	defaults							voldmanaged=sdcard1:auto,encryptable=userdata
 */block/sd*			auto		auto	defaults							voldmanaged=usb:auto,noemulatedsd
-/dev/block/zram0		none		swap	defaults							zramsize=268435456
+/dev/block/zram0		none		swap	defaults							zramsize=75%
