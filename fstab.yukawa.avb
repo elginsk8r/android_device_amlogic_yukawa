@@ -6,4 +6,4 @@ system                                                  /system         ext4    
 vendor                                                  /vendor         ext4    ro,barrier=1                                                    wait,avb,logical,first_stage_mount
 */block/mmcblk0						auto            auto    defaults                                                        voldmanaged=sdcard1:auto,encryptable=userdata
 */block/sd*                                             auto            auto    defaults                                                        voldmanaged=usb:auto,noemulatedsd
-/dev/block/zram0                                        none            swap    defaults                                                        zramsize=268435456
+/dev/block/zram0                                        none            swap    defaults                                                        zramsize=75%
