@@ -100,6 +100,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.recovery.hardware.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.yukawa.rc \
     $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.sys.zram_enabled=1
+
 # BT and Wifi FW
 PRODUCT_PACKAGES += \
     yukawa_brcmfmac4359-sdio.bin \
