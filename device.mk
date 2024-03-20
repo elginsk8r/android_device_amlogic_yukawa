@@ -14,9 +14,6 @@ PRODUCT_RUNTIMES := runtime_libart_default
 # Enable userspace reboot
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
-# Enable updating of APEXes
-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
-
 # Enable Scoped Storage related
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
