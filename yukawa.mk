@@ -1,5 +1,9 @@
 # Inherit the full_base and device configurations
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+ifeq ($(TARGET_64BIT_ONLY), true)
+  $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
+else
+  $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+endif
 ifndef TARGET_KERNEL_USE
 TARGET_KERNEL_USE := 6.1
 endif
