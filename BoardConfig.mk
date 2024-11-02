@@ -65,23 +65,32 @@ AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
     dtbo \
+    product \
     system \
-    vendor
+    system_ext \
+    vendor \
+    vendor_dlkm
 
 ifeq ($(TARGET_AVB_ENABLE), true)
 AB_OTA_PARTITIONS += vbmeta
 endif
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 ))) # 8 MiB
+BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDOR_DLKMIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_PRODUCT := product
+TARGET_COPY_OUT_SYSTEM_EXT := system_ext
 TARGET_COPY_OUT_VENDOR := vendor
+TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
 
 # Super partition
 TARGET_USE_DYNAMIC_PARTITIONS := true
 BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
 BOARD_SUPER_PARTITION_GROUPS := db_dynamic_partitions
-BOARD_DB_DYNAMIC_PARTITIONS_PARTITION_LIST := system vendor
+BOARD_DB_DYNAMIC_PARTITIONS_PARTITION_LIST := product system system_ext vendor vendor_dlkm
 BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 4608 * 1024 * 1024 )))
 BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SIZE)/2 - (10 * 1024 * 1024) )))  # Reserve 10M for DAP metadata
 
