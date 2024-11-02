@@ -1,4 +1,6 @@
 system		/system		ext4	noatime,ro,errors=panic		wait,avb=vbmeta,logical,first_stage_mount
+system_ext		/system_ext		ext4	noatime,ro,errors=panic		wait,avb,logical,first_stage_mount
+product		/product		ext4	noatime,ro,errors=panic		wait,avb,logical,first_stage_mount
 vendor		/vendor		ext4	noatime,ro,errors=panic		wait,avb,logical,first_stage_mount
 /dev/block/by-name/metadata     /metadata       ext4    noatime,nosuid,nodev,discard,sync      wait,check,formattable,first_stage_mount
 /dev/block/platform/soc/ffe07000.mmc/by-name/userdata     /data           f2fs    noatime,nosuid,nodev,inlinecrypt,reserve_root=32768      latemount,wait,check,fileencryption=software,quota,formattable,fscompress,readahead_size_kb=128,checkpoint=fs
