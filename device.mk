@@ -113,17 +113,9 @@ PRODUCT_VENDOR_PROPERTIES += \
     persist.sys.zram_enabled=1
 
 # BT and Wifi FW
-ifeq ($(TARGET_ADT3), true)
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/BCM4356A2.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/BCM4356A2.hcd \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/fw_bcm4356a2_ag.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/fw_bcm4356a2_ag.bin \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/nvram_ap6356.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/nvram.txt
-else
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/BCM.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/BCM4359C0.hcd \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/fw_bcm4359c0_ag.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/fw_bcm4359c0_ag.bin \
-    $(LOCAL_PATH)/binaries/bt-wifi-firmware/nvram_ap6359.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/nvram.txt
-endif
+PRODUCT_PACKAGES += \
+    yukawa_brcmfmac4359-sdio.bin \
+    yukawa_brcmfmac4359-sdio.txt
 
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Use Launcher3QuickStep

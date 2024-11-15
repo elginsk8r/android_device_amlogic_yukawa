@@ -1,0 +1,15 @@
+prebuilt_firmware {
+    name: "yukawa_brcmfmac4359-sdio.bin",
+    src: "brcmfmac4359-sdio.bin",
+    sub_dir: "brcm",
+    filename: "brcmfmac4359-sdio.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_brcmfmac4359-sdio.txt",
+    src: "brcmfmac4359-sdio.txt",
+    sub_dir: "brcm",
+    filename: "brcmfmac4359-sdio.txt",
+    proprietary: true,
+}
