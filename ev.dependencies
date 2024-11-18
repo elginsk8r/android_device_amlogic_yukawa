@@ -1,6 +1,16 @@
 [
  {
+    "repository": "android_external_u-boot",
+    "target_path": "external/u-boot",
+    "branch": "v-15.0-yukawa"
+ },
+ {
     "repository": "android_kernel_amlogic_yukawa",
     "target_path": "kernel/amlogic/yukawa"
+ },
+ {
+   "repository": "android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-9.3",
+   "target_path": "prebuilts/gcc/linux-x86/aarch64/aarch64-linux-gnu-9.3",
+    "remote": "lineage"
  }
 ]
