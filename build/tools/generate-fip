@@ -9,6 +9,12 @@ set -o nounset
 
 set -o xtrace
 
+FIPDIR=${1}
+UBOOTBIN=${2}
+TMP=${3}
+
+source ${FIPDIR}/soc-var.sh
+
 function fix_blx() {
 	#bl2 file size 41K, bl21 file size 3K (file size not equal runtime size)
 	#total 44K
@@ -61,13 +67,6 @@ function fix_blx() {
 
 	rm $2
 }
-
-FIPDIR=${1}
-UBOOTBIN=${2:-u-boot.bin}
-
-source ${FIPDIR}/soc-var.sh
-
-TMP=$(mktemp -d)
 
 if [ "$SOCFAMILY" = "gxl" ]
 then
@@ -149,10 +148,3 @@ else
     echo "${SOCFAMILY} is not supported - should be [gxl, axg, g12a, sm1, g12b]"
     exit 22
 fi
-
-TMP2="uboot-bins-$(date +%Y%m%d-%H%M%S)"
-mkdir $TMP2
-ln -sfn $TMP2 uboot-bins
-
-mv ${TMP}/u-boot.bin{,.sd.bin,.usb.bl2,.usb.tpl} ${TMP2}
-rm -r ${TMP}
