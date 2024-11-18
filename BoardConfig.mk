@@ -56,7 +56,11 @@ else
 BOARD_AVB_ENABLE := false
 endif
 
-TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_SOURCE ?= external/u-boot
+ifneq ($(wildcard $(TARGET_BOOTLOADER_SOURCE)/Makefile),)
+TARGET_NO_BOOTLOADER := false
+endif
+TARGET_NO_BOOTLOADER ?= true
 TARGET_NO_KERNEL := false
 
 BOARD_USES_RECOVERY_AS_BOOT := true

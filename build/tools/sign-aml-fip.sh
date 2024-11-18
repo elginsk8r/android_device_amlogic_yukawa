@@ -9,6 +9,32 @@ set -o nounset
 
 set -o xtrace
 
+FIPDIR=${1}
+UBOOTBIN=${2}
+TMP=${3}
+
+# Search for matching binary
+AML_SOC_ENC=""
+for file in ${FIPDIR}/aml_encrypt_*; do
+    if [[ -f "$file" && "$file" != "aml_encrypt_"*"/"* ]]; then
+        AML_SOC_ENC="$(readlink -f "$file")"
+        break
+    fi
+done
+
+# Set SOCFAMILY by stripping the prefix from the basename
+if [[ -n "$AML_SOC_ENC" ]]; then
+    AML_ENC=$(basename ${AML_SOC_ENC})
+    SOCFAMILY=${AML_ENC#aml_encrypt_}
+else
+    if [[ -f ${FIPDIR}/soc-var.sh ]]; then
+        source ${FIPDIR}/soc-var.sh
+    else
+        AML_ENC=aml_encrypt
+        SOCFAMILY=axg
+    fi
+fi
+
 function fix_blx() {
 	#bl2 file size 41K, bl21 file size 3K (file size not equal runtime size)
 	#total 44K
@@ -62,24 +88,17 @@ function fix_blx() {
 	rm $2
 }
 
-FIPDIR=${1}
-UBOOTBIN=${2:-u-boot.bin}
-
-source ${FIPDIR}/soc-var.sh
-
-TMP=$(mktemp -d)
-
 if [ "$SOCFAMILY" = "gxl" ]
 then
 
     fix_blx ${FIPDIR}/bl30.bin ${TMP}/zero_tmp ${TMP}/bl30_zero.bin ${FIPDIR}/bl301.bin ${TMP}/bl301_zero.bin ${TMP}/bl30_new.bin bl30
-    /usr/bin/env python2 ${FIPDIR}/acs_tool.pyc ${FIPDIR}/bl2.bin ${TMP}/bl2_acs.bin ${FIPDIR}/acs.bin 0
+    /usr/bin/env python3 ${FIPDIR}/acs_tool.pyc ${FIPDIR}/bl2.bin ${TMP}/bl2_acs.bin ${FIPDIR}/acs.bin 0
     fix_blx ${TMP}/bl2_acs.bin ${TMP}/zero_tmp ${TMP}/bl2_zero.bin ${FIPDIR}/bl21.bin ${TMP}/bl21_zero.bin ${TMP}/bl2_new.bin bl2
-    ${FIPDIR}/aml_encrypt --bl3enc --input ${TMP}/bl30_new.bin --output ${TMP}/bl30_new.bin.enc
-    ${FIPDIR}/aml_encrypt --bl3enc --input ${FIPDIR}/bl31.img --output ${TMP}/bl31.img.enc
-    ${FIPDIR}/aml_encrypt --bl3enc --input ${UBOOTBIN} --output ${TMP}/bl33.bin.enc
-    ${FIPDIR}/aml_encrypt --bl2sig --input ${TMP}/bl2_new.bin --output ${TMP}/bl2.n.bin.sig
-    ${FIPDIR}/aml_encrypt --bootmk --output ${TMP}/u-boot.bin \
+    ${FIPDIR}/${AML_ENC} --bl3enc --input ${TMP}/bl30_new.bin --output ${TMP}/bl30_new.bin.enc
+    ${FIPDIR}/${AML_ENC} --bl3enc --input ${FIPDIR}/bl31.img --output ${TMP}/bl31.img.enc
+    ${FIPDIR}/${AML_ENC} --bl3enc --input ${UBOOTBIN} --output ${TMP}/bl33.bin.enc
+    ${FIPDIR}/${AML_ENC} --bl2sig --input ${TMP}/bl2_new.bin --output ${TMP}/bl2.n.bin.sig
+    ${FIPDIR}/${AML_ENC} --bootmk --output ${TMP}/u-boot.bin \
 	     --bl2 ${TMP}/bl2.n.bin.sig \
 	     --bl30 ${TMP}/bl30_new.bin.enc \
 	     --bl31 ${TMP}/bl31.img.enc \
@@ -88,13 +107,13 @@ then
 elif [ "$SOCFAMILY" = "axg" ]
 then
     fix_blx ${FIPDIR}/bl30.bin ${TMP}/zero_tmp ${TMP}/bl30_zero.bin ${FIPDIR}/bl301.bin ${TMP}/bl301_zero.bin ${TMP}/bl30_new.bin bl30
-    /usr/bin/env python2 ${FIPDIR}/acs_tool.pyc ${FIPDIR}/bl2.bin ${TMP}/bl2_acs.bin ${FIPDIR}/acs.bin 0
+    /usr/bin/env python3 ${FIPDIR}/acs_tool.pyc ${FIPDIR}/bl2.bin ${TMP}/bl2_acs.bin ${FIPDIR}/acs.bin 0
     fix_blx ${TMP}/bl2_acs.bin ${TMP}/zero_tmp ${TMP}/bl2_zero.bin ${FIPDIR}/bl21.bin ${TMP}/bl21_zero.bin ${TMP}/bl2_new.bin bl2
-    ${FIPDIR}/aml_encrypt --bl3sig --input ${TMP}/bl30_new.bin --output ${TMP}/bl30_new.bin.enc --level v3 --type bl30
-    ${FIPDIR}/aml_encrypt --bl3sig --input ${FIPDIR}/bl31.img --output ${TMP}/bl31.img.enc --level v3 --type bl31
-    ${FIPDIR}/aml_encrypt --bl3sig --input  ${UBOOTBIN} --output ${TMP}/bl33.bin.enc --level v3 --type bl33 --compress lz4
-    ${FIPDIR}/aml_encrypt --bl2sig --input ${TMP}/bl2_new.bin --output ${TMP}/bl2.n.bin.sig
-    ${FIPDIR}/aml_encrypt --bootmk --output ${TMP}/u-boot.bin \
+    ${FIPDIR}/${AML_ENC} --bl3sig --input ${TMP}/bl30_new.bin --output ${TMP}/bl30_new.bin.enc --level v3 --type bl30
+    ${FIPDIR}/${AML_ENC} --bl3sig --input ${FIPDIR}/bl31.img --output ${TMP}/bl31.img.enc --level v3 --type bl31
+    ${FIPDIR}/${AML_ENC} --bl3sig --input  ${UBOOTBIN} --output ${TMP}/bl33.bin.enc --level v3 --type bl33 --compress lz4
+    ${FIPDIR}/${AML_ENC} --bl2sig --input ${TMP}/bl2_new.bin --output ${TMP}/bl2.n.bin.sig
+    ${FIPDIR}/${AML_ENC} --bootmk --output ${TMP}/u-boot.bin \
 	     --bl2 ${TMP}/bl2.n.bin.sig \
 	     --bl30 ${TMP}/bl30_new.bin.enc \
 	     --bl31 ${TMP}/bl31.img.enc \
@@ -107,14 +126,14 @@ then
     [ -e ${FIPDIR}/parse ] && ${FIPDIR}/parse ${TMP}/acs.bin
     fix_blx ${FIPDIR}/bl30.bin ${TMP}/zero_tmp ${TMP}/bl30_zero.bin ${FIPDIR}/bl301.bin ${TMP}/bl301_zero.bin ${TMP}/bl30_new.bin bl30
     fix_blx ${FIPDIR}/bl2.bin ${TMP}/zero_tmp ${TMP}/bl2_zero.bin ${TMP}/acs.bin ${TMP}/bl21_zero.bin ${TMP}/bl2_new.bin bl2
-    ${FIPDIR}/aml_encrypt --bl30sig --input ${TMP}/bl30_new.bin --output ${TMP}/bl30_new.bin.g12.enc --level v3
-    ${FIPDIR}/aml_encrypt --bl3sig  --input ${TMP}/bl30_new.bin.g12.enc --output ${TMP}/bl30_new.bin.enc --level v3 --type bl30
-    ${FIPDIR}/aml_encrypt --bl3sig  --input ${FIPDIR}/bl31.img --output ${TMP}/bl31.img.enc --level v3 --type bl31
-    ${FIPDIR}/aml_encrypt --bl3sig  --input ${UBOOTBIN} --compress lz4 --output ${TMP}/bl33.bin.enc --level v3 --type bl33
-    ${FIPDIR}/aml_encrypt --bl2sig  --input ${TMP}/bl2_new.bin --output ${TMP}/bl2.n.bin.sig
+    ${FIPDIR}/${AML_ENC} --bl30sig --input ${TMP}/bl30_new.bin --output ${TMP}/bl30_new.bin.g12.enc --level v3
+    ${FIPDIR}/${AML_ENC} --bl3sig  --input ${TMP}/bl30_new.bin.g12.enc --output ${TMP}/bl30_new.bin.enc --level v3 --type bl30
+    ${FIPDIR}/${AML_ENC} --bl3sig  --input ${FIPDIR}/bl31.img --output ${TMP}/bl31.img.enc --level v3 --type bl31
+    ${FIPDIR}/${AML_ENC} --bl3sig  --input ${UBOOTBIN} --compress lz4 --output ${TMP}/bl33.bin.enc --level v3 --type bl33
+    ${FIPDIR}/${AML_ENC} --bl2sig  --input ${TMP}/bl2_new.bin --output ${TMP}/bl2.n.bin.sig
     if [ -e ${FIPDIR}/lpddr3_1d.fw ]
     then
-	    ${FIPDIR}/aml_encrypt --bootmk  --output ${TMP}/u-boot.bin \
+	    ${FIPDIR}/${AML_ENC} --bootmk  --output ${TMP}/u-boot.bin \
 		     --bl2 ${TMP}/bl2.n.bin.sig \
 		     --bl30 ${TMP}/bl30_new.bin.enc \
 		     --bl31 ${TMP}/bl31.img.enc \
@@ -130,7 +149,7 @@ then
 		     --ddrfw9 ${FIPDIR}/lpddr3_1d.fw \
 		     --level v3
     else
-	    ${FIPDIR}/aml_encrypt --bootmk  --output ${TMP}/u-boot.bin \
+	    ${FIPDIR}/${AML_ENC} --bootmk  --output ${TMP}/u-boot.bin \
 		     --bl2 ${TMP}/bl2.n.bin.sig \
 		     --bl30 ${TMP}/bl30_new.bin.enc \
 		     --bl31 ${TMP}/bl31.img.enc \
@@ -149,10 +168,3 @@ else
     echo "${SOCFAMILY} is not supported - should be [gxl, axg, g12a, sm1, g12b]"
     exit 22
 fi
-
-TMP2="uboot-bins-$(date +%Y%m%d-%H%M%S)"
-mkdir $TMP2
-ln -sfn $TMP2 uboot-bins
-
-mv ${TMP}/u-boot.bin{,.sd.bin,.usb.bl2,.usb.tpl} ${TMP2}
-rm -r ${TMP}

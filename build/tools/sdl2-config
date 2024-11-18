@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Wrapper for SDL2 using pkg-config
+
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 {--cflags|--libs|--version}"
+    exit 1
+fi
+
+case "$1" in
+    --cflags)
+        pkg-config --cflags sdl2
+        ;;
+    --libs)
+        pkg-config --libs sdl2
+        ;;
+    --version)
+        pkg-config --modversion
+        ;;
+    *)
+        echo "Unknown option: $1"
+        exit 1
+        ;;
+esac
+

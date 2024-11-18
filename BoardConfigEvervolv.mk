@@ -2,6 +2,9 @@
 # Product-specific compile-time definitions.
 #
 
+# Bootloader
+BOARD_PREBUILT_BOOTLOADER = $(PRODUCT_OUT)/u-boot.bin
+
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
     hardware/evervolv/interfaces/compatibility_matrices/compatibility_matrix.evervolv.xml \
