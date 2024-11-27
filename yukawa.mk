@@ -53,7 +53,7 @@ endif
 
 # Feature permissions
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/permissions/yukawa.xml:/system/etc/sysconfig/yukawa.xml
+    device/amlogic/yukawa/permissions/yukawa.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/yukawa.xml
 
 # Speaker EQ
 PRODUCT_COPY_FILES += \
