@@ -4,13 +4,7 @@ ifndef TARGET_KERNEL_USE
 TARGET_KERNEL_USE := 6.1
 endif
 
-ifeq ($(TARGET_VIM3), true)
-TARGET_DEV_BOARD := vim3
-else ifeq ($(TARGET_VIM3L), true)
-TARGET_DEV_BOARD := vim3l
-else ifeq ($(TARGET_DEV_BOARD),)
-TARGET_DEV_BOARD := vim3l
-endif
+TARGET_DEV_BOARD ?= vim3l
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
 GPU_TYPE := gondul_ion
