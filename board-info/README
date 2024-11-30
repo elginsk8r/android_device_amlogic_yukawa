@@ -5,7 +5,7 @@ $ . ./build/envsetup.sh
 $ lunch yukawa-userdebug
 $ make -j24
 
-- For VIM3L: make TARGET_VIM3L=true -j24
+- For VIM3L: make TARGET_DEV_BOARD=vim3l -j24
 
 Compile Kernel:
 ===============

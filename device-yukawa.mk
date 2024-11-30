@@ -2,13 +2,7 @@ ifndef TARGET_KERNEL_USE
 TARGET_KERNEL_USE := 5.10
 endif
 
-ifeq ($(TARGET_VIM3), true)
-TARGET_DEV_BOARD := vim3
-else ifeq ($(TARGET_VIM3L), true)
-TARGET_DEV_BOARD := vim3l
-else ifeq ($(TARGET_DEV_BOARD),)
-TARGET_DEV_BOARD := sei610
-endif
+TARGET_DEV_BOARD ?= sei610
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
 AUDIO_DEFAULT_OUTPUT := hdmi
