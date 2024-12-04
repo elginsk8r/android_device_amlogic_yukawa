@@ -350,7 +350,7 @@ endif
 
 # Software Security HAL
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software
+    com.android.hardware.gatekeeper.nonsecure
 
 # KeyMint
 PRODUCT_PACKAGES += \
