@@ -349,8 +349,14 @@ endif
 
 # Software Security HAL
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software \
-    android.hardware.security.keymint-service
+    android.hardware.gatekeeper@1.0-service.software
+
+# KeyMint
+PRODUCT_PACKAGES += \
+    com.android.hardware.keymint.rust_nonsecure
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml
 
 # USB
 PRODUCT_PACKAGES += \
