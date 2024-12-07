@@ -19,7 +19,6 @@ endif
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
 AUDIO_DEFAULT_OUTPUT := hdmi
-GPU_TYPE := gondul_ion
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 endif
@@ -41,7 +40,10 @@ PRODUCT_VENDOR_PROPERTIES += \
 $(call inherit-product, device/amlogic/yukawa/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
-GPU_TYPE ?= dvalin_ion
+
+ifneq ($(filter $(TARGET_AML_SOC_MODEL),A311D),)
+$(call soong_config_set,yukawa_mali,gpu_type,gondul_ion)
+endif
 
 BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)
 
