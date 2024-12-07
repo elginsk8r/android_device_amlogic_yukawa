@@ -6,7 +6,7 @@ TARGET_DEV_BOARD ?= sei610
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3 odroid-n2),)
 AUDIO_DEFAULT_OUTPUT := hdmi
-GPU_TYPE := gondul_ion
+$(call soong_config_set,yukawa_mali,gpu_type,gondul_ion)
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 endif
@@ -14,7 +14,6 @@ endif
 $(call inherit-product, device/amlogic/yukawa/device-common.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
-GPU_TYPE ?= dvalin_ion
 
 BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)
 
