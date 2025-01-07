@@ -42,11 +42,7 @@ BOARD_HOSTAPD_DRIVER := NL80211
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 
 # AVB
-ifeq ($(TARGET_AVB_ENABLE), true)
 BOARD_AVB_ENABLE := true
-else
-BOARD_AVB_ENABLE := false
-endif
 
 TARGET_BOOTLOADER_SOURCE ?= external/u-boot
 ifneq ($(wildcard $(TARGET_BOOTLOADER_SOURCE)/Makefile),)
@@ -67,10 +63,8 @@ AB_OTA_PARTITIONS += \
     product \
     system \
     system_ext \
-    vendor
-ifeq ($(TARGET_AVB_ENABLE), true)
-AB_OTA_PARTITIONS += vbmeta
-endif
+    vendor \
+    vbmeta
 endif
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 ))) # 8 MiB
@@ -113,24 +107,16 @@ TARGET_USERIMAGES_SPARSE_F2FS_DISABLED ?= false
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-ifeq ($(TARGET_AVB_ENABLE), true)
 ifeq ($(TARGET_USE_AB_SLOT), true)
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa.avb.ab
+TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa.ab
 else
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa.avb
+TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa
 endif
+TARGET_RECOVERY_WIPE := device/amlogic/yukawa/recovery.wipe
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 2
-else
-ifeq ($(TARGET_USE_AB_SLOT), true)
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa
-else
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.recovery.yukawa
-endif
-endif
-TARGET_RECOVERY_WIPE := device/amlogic/yukawa/recovery.wipe
 BOARD_INCLUDE_RECOVERY_DTBO := true
 
 BOARD_KERNEL_OFFSET      := 0x1080000
