@@ -229,8 +229,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PACKAGES += \
     gralloc.yukawa \
-    android.hardware.graphics.composer@2.4-impl \
-    android.hardware.graphics.composer@2.4-service \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.mapper@2.0-impl-2.1
@@ -240,11 +238,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Hardware Composer HAL
 #
-PRODUCT_PACKAGES += \
-    hwcomposer.drm_meson
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hardware.hwcomposer=drm_meson
+PRODUCT_PACKAGES += android.hardware.composer.hwc3-service.drm.meson
 
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.opengles.version=196610
