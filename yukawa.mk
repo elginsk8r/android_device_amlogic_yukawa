@@ -46,6 +46,12 @@ PRODUCT_NAME := yukawa
 PRODUCT_DEVICE := yukawa
 
 # Set SOC information
+SOC_MANUFACTURER := Amlogic
+ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
+SOC_MODEL := A311D
+endif
+SOC_MODEL ?= S905D3
+
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
-    ro.soc.model=$(PRODUCT_DEVICE)
+    ro.soc.manufacturer=$(SOC_MANUFACTURER) \
+    ro.soc.model=$(SOC_MODEL)
