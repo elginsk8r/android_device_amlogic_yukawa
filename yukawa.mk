@@ -18,12 +18,6 @@ TARGET_DEV_BOARD := sei610
 endif
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
-AUDIO_DEFAULT_OUTPUT := hdmi
-else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
-AUDIO_DEFAULT_OUTPUT := hdmi
-endif
-
-ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
 TARGET_AML_SOC_MODEL := A311D
 else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
 TARGET_AML_SOC_MODEL := S905D3
