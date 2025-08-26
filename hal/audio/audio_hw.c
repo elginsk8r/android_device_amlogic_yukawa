@@ -103,16 +103,11 @@ static bool is_aec_input(const struct alsa_stream_in* in) {
 
 static int get_audio_output_port(audio_devices_t devices) {
     /* Prefer HDMI, default to internal speaker */
-#ifndef USE_HDMI_AUDIO
-    int port = PORT_INTERNAL_SPEAKER;
-    if (devices & AUDIO_DEVICE_OUT_HDMI) {
-        port = PORT_HDMI;
+    int internal_spkr = property_get_bool("vendor.audio.internal_spkr", false);
+    if (internal_spkr && !(devices & AUDIO_DEVICE_OUT_HDMI)) {
+        return PORT_INTERNAL_SPEAKER;
     }
-#else
-    int port = PORT_HDMI;
-#endif
-
-    return port;
+    return PORT_HDMI;
 }
 
 static int get_audio_card(int direction, int port) {
@@ -1205,6 +1200,11 @@ static int adev_open(const hw_module_t* module, const char* name,
         ALOGE("%s: Failed to init audio route controls, aborting.", __func__);
         goto error_2;
     }
+
+    int speaker_support = property_get_bool("vendor.audio.hal.speaker.supported", false);
+    ALOGV("%s: Using internal speaker: %d", __func__, speaker_support);
+    audio_route_apply_and_update_path(adev->audio_route,
+            speaker_support ? "default_speaker" : "default_hdmi");
 
     struct aec_params params = {
             .num_mic_channels = CHANNEL_STEREO,

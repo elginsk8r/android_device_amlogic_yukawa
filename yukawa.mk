@@ -7,10 +7,7 @@ endif
 TARGET_DEV_BOARD ?= sei610
 
 ifneq ($(filter $(TARGET_DEV_BOARD),vim3 odroid-n2),)
-AUDIO_DEFAULT_OUTPUT := hdmi
 $(call soong_config_set,yukawa_mali,gpu_type,gondul_ion)
-else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
-AUDIO_DEFAULT_OUTPUT := hdmi
 endif
 
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
