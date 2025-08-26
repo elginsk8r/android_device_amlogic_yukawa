@@ -1,0 +1,60 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// The default audio HAL module, which is a stub, that is loaded if no other
+// device specific modules are present. The exact load order can be seen in
+// libhardware/hardware.c
+//
+// The format of the name is audio.<type>.<hardware/etc>.so where the only
+// required type is 'primary'. Other possibilites are 'a2dp', 'usb', etc.
+
+cc_library_shared {
+    name: "audio.primary.yukawa",
+    relative_install_path: "hw",
+    proprietary: true,
+    srcs: [
+        "audio_hw.c",
+        "audio_aec.c",
+        "fifo_wrapper.cpp",
+        "fir_filter.c",
+    ],
+    header_libs: ["libhardware_headers"],
+    include_dirs: [
+        "external/expat/lib",
+        "external/tinyalsa/include",
+        "system/media/audio_effects/include",
+        "system/media/audio_route/include",
+        "system/media/audio_utils/include",
+    ],
+    shared_libs: [
+        "libaudioroute",
+        "libaudioutils",
+        "libcutils",
+        "libexpat",
+        "liblog",
+        "libtinyalsa",
+        "libutils",
+    ] + select(soong_config_variable("yukawa_audio", "google_aec"), {
+        "true": ["google_aec"],
+        default: [],
+    }),
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ] + select(soong_config_variable("yukawa_audio", "google_aec"), {
+        "true": ["-DAEC_HAL"],
+        default: [],
+    }),
+}
