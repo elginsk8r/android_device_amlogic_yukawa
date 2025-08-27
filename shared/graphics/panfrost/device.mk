@@ -24,7 +24,9 @@ PRODUCT_PACKAGES += \
     libglapi
 
 TARGET_BUILD_MESA ?= true
-ifneq ($(TARGET_BUILD_MESA), false)
+ifneq ($(wildcard external/mesa/VERSION),)
+   PRODUCT_PACKAGES += mesa3d
+else ifneq ($(TARGET_BUILD_MESA), false)
    PRODUCT_SOONG_NAMESPACES += \
        external/mesa3d
 endif
