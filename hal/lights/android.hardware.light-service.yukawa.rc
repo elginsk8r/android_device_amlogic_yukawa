@@ -1,0 +1,10 @@
+on early-boot
+    # LED devices
+    chown system system /sys/class/leds/sei610:red:power/brightness
+    chown system system /sys/class/leds/sei610:blue:bt/brightness
+
+service vendor.light-default /vendor/bin/hw/android.hardware.light-service.yukawa
+    class hal
+    user system
+    group system
+    shutdown critical
