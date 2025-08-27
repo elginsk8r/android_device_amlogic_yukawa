@@ -15,18 +15,20 @@
 #
 
 # GLES
-PRODUCT_PACKAGES += \
-    libGLES_mesa \
-    libEGL_mesa \
-    libGLESv1_CM_mesa \
-    libGLESv2_mesa \
-    libgallium_dri \
-    libglapi
-
 TARGET_BUILD_MESA ?= false
 ifneq ($(TARGET_BUILD_MESA), false)
-   PRODUCT_SOONG_NAMESPACES += \
-       external/mesa3d
+  ifeq ($(wildcard hardware/mesa/VERSION),)
+    PRODUCT_PACKAGES += \
+        libGLES_mesa \
+        libEGL_mesa \
+        libGLESv1_CM_mesa \
+        libGLESv2_mesa \
+        libgallium_dri \
+        libglapi
+    PRODUCT_SOONG_NAMESPACES += external/mesa3d
+  else
+    PRODUCT_PACKAGES += mesa3d
+  endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
