@@ -24,15 +24,15 @@ ifneq ($(filter yukawa%, $(TARGET_DEVICE)),)
 
 LOCAL_PATH := $(call my-dir)
 
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/binaries/bt-wifi-firmware,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/binaries/video_firmware,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/hal/audio,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/hal/camera,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/input,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/media_xml,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/wifi,))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/,.rc))
-$(eval $(call declare-1p-copy-files,device/amlogic/yukawa/,fstab.yukawa))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/binaries/bt-wifi-firmware,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/binaries/video_firmware,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/hal/audio,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/hal/camera,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/input,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/media_xml,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/wifi,))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/,.rc))
+$(eval $(call declare-1p-copy-files,$(LOCAL_PATH)/,fstab.yukawa))
 
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.

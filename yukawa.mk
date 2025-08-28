@@ -13,7 +13,7 @@ else ifneq ($(filter $(TARGET_DEV_BOARD),vim3l),)
 AUDIO_DEFAULT_OUTPUT := hdmi
 endif
 
-$(call inherit-product, device/amlogic/yukawa/device.mk)
+$(call inherit-product, $(LOCAL_PATH)/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
 
@@ -27,11 +27,11 @@ endif
 
 # Feature permissions
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/permissions/yukawa.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/yukawa.xml
+    $(LOCAL_PATH)/permissions/yukawa.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/yukawa.xml
 
 # Speaker EQ
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/audio/speaker_eq_sei610.fir:$(TARGET_COPY_OUT_VENDOR)/etc/speaker_eq_sei610.fir
+    $(LOCAL_PATH)/hal/audio/speaker_eq_sei610.fir:$(TARGET_COPY_OUT_VENDOR)/etc/speaker_eq_sei610.fir
 
 PRODUCT_SHIPPING_API_LEVEL := 31
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
