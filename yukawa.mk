@@ -37,7 +37,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=Amlogic \
     ro.soc.model=$(TARGET_AML_SOC_MODEL)
 
-$(call inherit-product, device/amlogic/yukawa/device.mk)
+$(call inherit-product, $(LOCAL_PATH)/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
 
@@ -55,11 +55,11 @@ endif
 
 # Feature permissions
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/permissions/yukawa.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/yukawa.xml
+    $(LOCAL_PATH)/permissions/yukawa.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig/yukawa.xml
 
 # Speaker EQ
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/audio/speaker_eq_sei610.fir:$(TARGET_COPY_OUT_VENDOR)/etc/speaker_eq_sei610.fir
+    $(LOCAL_PATH)/hal/audio/speaker_eq_sei610.fir:$(TARGET_COPY_OUT_VENDOR)/etc/speaker_eq_sei610.fir
 
 # Hotword Mic Toggle Provider
 ifneq ($(filter $(TARGET_DEV_BOARD),sei610),)
