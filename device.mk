@@ -336,7 +336,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += stm32_flash nanoapp_cmd nanotool
 
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/init.common.nanohub.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.nanohub.rc
+    $(LOCAL_PATH)/init.common.nanohub.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.nanohub.rc
 
 # Copy sensors config file(s)
 PRODUCT_COPY_FILES += \
@@ -385,7 +385,7 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
-    device/amlogic/yukawa/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
+    $(LOCAL_PATH)/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 
 # Create input surface on the framework side
 PRODUCT_VENDOR_PROPERTIES += \
@@ -403,7 +403,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-impl
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-external-service
 PRODUCT_COPY_FILES += \
-    device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
+    $(LOCAL_PATH)/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
 PRODUCT_COPY_FILES +=  \
     frameworks/native/data/etc/android.hardware.camera.concurrent.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
