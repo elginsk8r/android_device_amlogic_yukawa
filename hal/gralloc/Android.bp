@@ -31,3 +31,64 @@ genrule {
         "-e 's%hwc3-service.drm%hwc3-service.drm.meson%' " +
         "$(in) > $(out)",
 }
+
+cc_library_shared {
+    name: "gralloc.yukawa",
+    relative_install_path: "hw",
+    vendor: true,
+    owner: "arm",
+
+    srcs: [
+        "mali_gralloc_module.cpp",
+        "framebuffer_device.cpp",
+        "gralloc_buffer_priv.cpp",
+        "mali_gralloc_bufferaccess.cpp",
+        "mali_gralloc_bufferallocation.cpp",
+        "mali_gralloc_bufferdescriptor.cpp",
+        "mali_gralloc_ion.cpp",
+        "mali_gralloc_formats.cpp",
+        "mali_gralloc_reference.cpp",
+        "mali_gralloc_debug.cpp",
+        "mali_gralloc_public_interface.cpp",
+        "mali_gralloc_private_interface.cpp",
+    ] + select(soong_config_variable("yukawa_gralloc", "vsync_backend"), {
+        any @ flag_val: ["gralloc_vsync_" + flag_val + ".cpp"],
+        default: ["gralloc_vsync_default.cpp"],
+    }),
+
+    shared_libs: [
+        "libhardware",
+        "liblog",
+        "libcutils",
+        "libGLESv1_CM",
+        "libion",
+        "libsync",
+        "libutils",
+    ],
+
+    cflags: [
+        "-DLOG_TAG=\"gralloc\"",
+        "-DGRALLOC_LIBRARY_BUILD=1",
+        "-DGRALLOC_USE_GRALLOC1_API=1",
+    ] + select(soong_config_variable("ANDROID", "target_board_platform"), {
+        "vexpress": [
+            "-DGRALLOC_16_BITS",
+        ],
+        "yukawa": [
+            "-DDISABLE_FRAMEBUFFER_HAL=1",
+            "-DGRALLOC_USE_ION_DMA_HEAP=1",
+            "-DGRALLOC_32_BITS",
+            "-DGRALLOC_ARM_NO_EXTERNAL_AFBC=1",
+        ],
+        default: [
+            "-DGRALLOC_32_BITS",
+            "-DGRALLOC_FB_SWAP_RED_BLUE=1",
+        ],
+    }),
+
+    product_variables: {
+        platform_sdk_version: {
+            cflags: ["-DPLATFORM_SDK_VERSION=%d"],
+        },
+    },
+}
