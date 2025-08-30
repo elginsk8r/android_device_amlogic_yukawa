@@ -1,2 +1,3 @@
 gpu_access(system_server)
 allow system_server wifi_hal_prop:file { getattr map open read };
+allow system_server sysfs_suspend_stats:file r_file_perms;
