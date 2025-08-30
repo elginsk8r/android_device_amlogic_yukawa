@@ -31,3 +31,84 @@ genrule {
         "-e 's%hwc3-service.drm%hwc3-service.drm.meson%' " +
         "$(in) > $(out)",
 }
+
+cc_library_shared {
+    name: "gralloc.yukawa",
+    relative_install_path: "hw",
+    vendor: true,
+    owner: "arm",
+
+    srcs: [
+        "mali_gralloc_module.cpp",
+        "framebuffer_device.cpp",
+        "gralloc_buffer_priv.cpp",
+        "mali_gralloc_bufferaccess.cpp",
+        "mali_gralloc_bufferallocation.cpp",
+        "mali_gralloc_bufferdescriptor.cpp",
+        "mali_gralloc_ion.cpp",
+        "mali_gralloc_formats.cpp",
+        "mali_gralloc_reference.cpp",
+        "mali_gralloc_debug.cpp",
+        "mali_gralloc_public_interface.cpp",
+        "mali_gralloc_private_interface.cpp",
+    ] + select(soong_config_variable("yukawa_gralloc", "vsync_backend"), {
+        any @ flag_val: ["gralloc_vsync_" + flag_val + ".cpp"],
+        default: ["gralloc_vsync_default.cpp"],
+    }),
+
+    shared_libs: [
+        "libhardware",
+        "liblog",
+        "libcutils",
+        "libGLESv1_CM",
+        "libion",
+        "libsync",
+        "libutils",
+    ],
+
+    cflags: [
+        "-Werror",
+        "-DLOG_TAG=\"gralloc\"",
+        "-DMALI_GPU_SUPPORT_AFBC_BASIC=0",
+        "-DMALI_GPU_SUPPORT_AFBC_SPLITBLK=0",
+        "-DMALI_GPU_SUPPORT_AFBC_WIDEBLK=0",
+        "-DMALI_GPU_USE_YUV_AFBC_WIDEBLK=0",
+        "-DMALI_GPU_SUPPORT_AFBC_TILED_HEADERS=0",
+        "-DMALI_DISPLAY_VERSION=0",
+        "-DMALI_VIDEO_VERSION=0",
+        "-DGRALLOC_USE_GRALLOC1_API=1",
+        "-DGRALLOC_DISP_W=0",
+        "-DGRALLOC_DISP_H=0",
+        "-DGRALLOC_USE_ION_COMPOUND_PAGE_HEAP=0",
+        "-DGRALLOC_INIT_AFBC=0",
+        "-DGRALLOC_LIBRARY_BUILD=1",
+    ] + select(soong_config_variable("ANDROID", "target_board_platform"), {
+        "vexpress": [
+            "-DDISABLE_FRAMEBUFFER_HAL=0",
+            "-DGRALLOC_USE_ION_DMA_HEAP=0",
+            "-DGRALLOC_16_BITS",
+            "-DGRALLOC_ARM_NO_EXTERNAL_AFBC=0",
+            "-DGRALLOC_FB_SWAP_RED_BLUE=0",
+        ],
+        "yukawa": [
+            "-DDISABLE_FRAMEBUFFER_HAL=1",
+            "-DGRALLOC_USE_ION_DMA_HEAP=1",
+            "-DGRALLOC_32_BITS",
+            "-DGRALLOC_ARM_NO_EXTERNAL_AFBC=1",
+            "-DGRALLOC_FB_SWAP_RED_BLUE=0",
+        ],
+        default: [
+            "-DDISABLE_FRAMEBUFFER_HAL=0",
+            "-DGRALLOC_USE_ION_DMA_HEAP=0",
+            "-DGRALLOC_32_BITS",
+            "-DGRALLOC_ARM_NO_EXTERNAL_AFBC=0",
+            "-DGRALLOC_FB_SWAP_RED_BLUE=1",
+        ],
+    }),
+
+    product_variables: {
+        platform_sdk_version: {
+            cflags: ["-DPLATFORM_SDK_VERSION=%d"],
+        },
+    },
+}
