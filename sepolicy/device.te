@@ -2,7 +2,7 @@ type bootloader_block_device, dev_type;
 
 type cec_device, dev_type;
 
-allow domain cec_device:chr_file rw_file_perms;
+type dmabuf_cma_heap_device, dmabuf_heap_device_type, dev_type;
 
 type env_block_device, dev_type;
 
