@@ -1,2 +1,0 @@
-allow wificond vendor_firmware_file:dir search;
-dontaudit wificond vendor_firmware_file:file { open read };
