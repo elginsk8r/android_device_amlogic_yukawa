@@ -1,0 +1,8 @@
+type set_hw_caps, domain;
+type set_hw_caps_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(set_hw_caps);
+
+set_prop(set_hw_caps, vendor_audio_prop)
+
+allow set_hw_caps sysfs_dt_compatible:file r_file_perms;

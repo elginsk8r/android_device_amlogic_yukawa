@@ -103,6 +103,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_VENDOR_PROPERTIES += \
     persist.sys.zram_enabled=1
 
+PRODUCT_PACKAGES += \
+    set_hw_caps
+
 # BT and Wifi FW
 PRODUCT_PACKAGES += \
     yukawa_brcmfmac4359-sdio.bin \

@@ -1,0 +1,5 @@
+service vendor.set_hw_caps /vendor/bin/set_hw_caps
+    class early_hal
+    group root
+    user root
+    oneshot
