@@ -1,0 +1,7 @@
+cc_binary {
+    name: "set_hw_caps",
+    srcs: ["set_hw_caps.cpp"],
+    init_rc: ["set_hw_caps.rc"],
+    shared_libs: ["libbase"],
+    vendor: true,
+}
