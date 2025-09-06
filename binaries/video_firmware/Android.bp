@@ -1,0 +1,63 @@
+prebuilt_firmware {
+    name: "yukawa_g12a_h264.bin",
+    src: "g12a_h264.bin",
+    sub_dir: "meson/vdec",
+    filename: "g12a_h264.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_g12a_hevc_mmu.bin",
+    src: "g12a_hevc_mmu.bin",
+    sub_dir: "meson/vdec",
+    filename: "g12a_hevc_mmu.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_g12a_vp9.bin",
+    src: "g12a_vp9.bin",
+    sub_dir: "meson/vdec",
+    filename: "g12a_vp9.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_gxl_mjpeg.bin",
+    src: "gxl_mjpeg.bin",
+    sub_dir: "meson/vdec",
+    filename: "gxl_mjpeg.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_gxl_mpeg4_5.bin",
+    src: "gxl_mpeg4_5.bin",
+    sub_dir: "meson/vdec",
+    filename: "gxl_mpeg4_5.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_gxl_mpeg12.bin",
+    src: "gxl_mpeg12.bin",
+    sub_dir: "meson/vdec",
+    filename: "gxl_mpeg12.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_sm1_hevc_mmu.bin",
+    src: "sm1_hevc_mmu.bin",
+    sub_dir: "meson/vdec",
+    filename: "sm1_hevc_mmu.bin",
+    proprietary: true,
+}
+
+prebuilt_firmware {
+    name: "yukawa_sm1_vp9_mmu.bin",
+    src: "sm1_vp9_mmu.bin",
+    sub_dir: "meson/vdec",
+    filename: "sm1_vp9_mmu.bin",
+    proprietary: true,
+}

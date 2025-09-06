@@ -169,15 +169,15 @@ PRODUCT_PACKAGES += \
     cplay
 
 # Video
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/binaries/video_firmware/g12a_h264.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/g12a_h264.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/g12a_hevc_mmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/g12a_hevc_mmu.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/g12a_vp9.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/g12a_vp9.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/gxl_mpeg4_5.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mpeg4_5.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/gxl_mpeg12.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mpeg12.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/gxl_mjpeg.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/gxl_mjpeg.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/sm1_hevc_mmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/sm1_hevc_mmu.bin \
-    $(LOCAL_PATH)/binaries/video_firmware/sm1_vp9_mmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/meson/vdec/sm1_vp9_mmu.bin
+PRODUCT_PACKAGES += \
+    yukawa_g12a_h264.bin \
+    yukawa_g12a_hevc_mmu.bin \
+    yukawa_g12a_vp9.bin \
+    yukawa_gxl_mpeg4_5.bin \
+    yukawa_gxl_mpeg12.bin \
+    yukawa_gxl_mjpeg.bin \
+    yukawa_sm1_hevc_mmu.bin \
+    yukawa_sm1_vp9_mmu.bin
 
 # V4L2-Codec2
 PRODUCT_PROPERTY_OVERRIDES += \
