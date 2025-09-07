@@ -86,12 +86,8 @@ TARGET_USE_DYNAMIC_PARTITIONS := true
 BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
 BOARD_SUPER_PARTITION_GROUPS := db_dynamic_partitions
 BOARD_DB_DYNAMIC_PARTITIONS_PARTITION_LIST := product system system_ext vendor
-ifeq ($(TARGET_USE_AB_SLOT), true)
 BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 4608 * 1024 * 1024 )))
-else
-BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 2304 * 1024 * 1024 )))
-endif
-BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SIZE) - (4 * 1024 * 1024) )))  # Reserve 4M for DAP metadata
+BOARD_DB_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(( $(BOARD_SUPER_PARTITION_SIZE) / 2  - (4 * 1024 * 1024) )))  # Reserve 4M for DAP metadata
 BOARD_SUPER_PARTITION_METADATA_DEVICE := super
 
 # Creates metadata partition mount point under root for
