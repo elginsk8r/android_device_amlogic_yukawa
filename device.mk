@@ -1,5 +1,6 @@
 PRODUCT_SOONG_NAMESPACES += \
     device/amlogic/yukawa \
+    external/linux-firmware-mainline \
     external/v4l2_codec2
 
 # Build and run only ART
@@ -98,8 +99,12 @@ PRODUCT_PACKAGES += \
 
 # BT and Wifi FW
 PRODUCT_PACKAGES += \
-    yukawa_brcmfmac4359-sdio.bin \
-    yukawa_brcmfmac4359-sdio.txt
+    linux_firmware_brcm-bcm4359 \
+    linux_firmware_brcm-bcm4359-vim3 \
+    linux_firmware_brcm-bcm4359-vim3l \
+    linux_firmware_brcm-bcm4359-nvram \
+    linux_firmware_brcm-bcm4359-nvram-vim3 \
+    linux_firmware_brcm-bcm4359-nvram-vim3l
 
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Use Launcher3QuickStep
@@ -161,14 +166,7 @@ PRODUCT_PACKAGES += \
 
 # Video
 PRODUCT_PACKAGES += \
-    yukawa_g12a_h264.bin \
-    yukawa_g12a_hevc_mmu.bin \
-    yukawa_g12a_vp9.bin \
-    yukawa_gxl_mpeg4_5.bin \
-    yukawa_gxl_mpeg12.bin \
-    yukawa_gxl_mjpeg.bin \
-    yukawa_sm1_hevc_mmu.bin \
-    yukawa_sm1_vp9_mmu.bin
+    linux_firmware_amlogic_vdec
 
 # V4L2-Codec2
 PRODUCT_PROPERTY_OVERRIDES += \

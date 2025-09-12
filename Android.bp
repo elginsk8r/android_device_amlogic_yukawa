@@ -45,3 +45,31 @@ license {
     ],
     // large-scale-change unable to identify any license_text files
 }
+
+install_symlink {
+    name: "linux_firmware_brcm-bcm4359-vim3",
+    vendor: true,
+    installed_location: "firmware/brcmfmac4359-sdio.khadas,vim3.bin",
+    symlink_target: "/vendor/firmware/brcmfmac4359-sdio.bin",
+}
+
+install_symlink {
+    name: "linux_firmware_brcm-bcm4359-nvram-vim3",
+    vendor: true,
+    installed_location: "firmware/brcmfmac4359-sdio.khadas,vim3.txt",
+    symlink_target: "/vendor/firmware/brcmfmac4359-sdio.txt",
+}
+
+install_symlink {
+    name: "linux_firmware_brcm-bcm4359-vim3l",
+    vendor: true,
+    installed_location: "firmware/brcmfmac4359-sdio.khadas,vim3l.bin",
+    symlink_target: "/vendor/firmware/brcmfmac4359-sdio.bin",
+}
+
+install_symlink {
+    name: "linux_firmware_brcm-bcm4359-nvram-vim3l",
+    vendor: true,
+    installed_location: "firmware/brcmfmac4359-sdio.khadas,vim3l.txt",
+    symlink_target: "/vendor/firmware/brcmfmac4359-sdio.txt",
+}
