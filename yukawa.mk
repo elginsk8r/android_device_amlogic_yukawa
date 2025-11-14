@@ -1,5 +1,6 @@
 # Inherit the full_base and device configurations
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+# Use 64-bit only since Mesa libraries are compiled for 64-bit only
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 ifndef TARGET_KERNEL_USE
 TARGET_KERNEL_USE := 6.1
 endif

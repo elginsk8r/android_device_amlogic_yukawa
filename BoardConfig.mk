@@ -15,8 +15,7 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 
-# 64 bit mediadrmserver
-TARGET_ENABLE_MEDIADRM_64 := true
+TARGET_IS_64_BIT := true
 
 # Puts odex files on system_other, as well as causing dex files not to get
 # stripped from APKs.
