@@ -11,6 +11,7 @@
 /dev/nanohub           u:object_r:sensors_device:s0
 /dev/nanohub_comms     u:object_r:sensors_device:s0
 /dev/dma_heap/linux,cma u:object_r:dmabuf_cma_heap_device:s0
+/dev/block/by-name/frp  u:object_r:frp_block_device:s0
 
 /sys/devices/platform/soc/ffe03000.sd/mmc_host(/.*)?             u:object_r:sysfs_suspend_stats:s0
 /sys/devices/platform/soc/ff800000.bus/ff8000a8.rtc/wakeup(/.*)? u:object_r:sysfs_suspend_stats:s0
@@ -28,13 +29,16 @@
 /vendor/bin/hw/android\.hardware\.composer\.hwc3-service\.drm\.meson   u:object_r:hal_graphics_composer_default_exec:s0
 
 #Block devices
-/dev/block/platform/soc/ffe07000\.mmc/by-name/userdata u:object_r:userdata_block_device:s0
-/dev/block/platform/soc/ffe07000\.mmc/by-name/misc                     u:object_r:misc_block_device:s0
-/dev/block/platform/soc/ffe07000\.mmc/by-name/super                    u:object_r:super_block_device:s0
-/dev/block/platform/soc/ffe07000\.mmc/by-name/boot(_[ab])?             u:object_r:boot_block_device:s0
-/dev/block/platform/soc/ffe07000\.mmc/by-name/dtbo(_[ab])?             u:object_r:dtbo_block_device:s0
-/dev/block/platform/soc/ffe07000\.mmc/by-name/vbmeta(_[ab])?           u:object_r:vbmeta_block_device:s0
-/dev/block/platform/soc/ffe07000\.mmc/by-name/metadata                 u:object_r:metadata_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/userdata                 u:object_r:userdata_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/misc                     u:object_r:misc_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/super                    u:object_r:super_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/boot(_[ab])?             u:object_r:boot_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/init_boot_(_[ab])?       u:object_r:boot_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/vendor_boot(_[ab])?      u:object_r:boot_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/dtbo(_[ab])?             u:object_r:dtbo_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/vbmeta(_[ab])?           u:object_r:vbmeta_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/metadata                 u:object_r:metadata_block_device:s0
+/dev/block/platform/soc/ffe07000.mmc/by-name/frp                      u:object_r:frp_block_device:s0
 
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software    u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.thermal@2\.0-service.mock            u:object_r:hal_thermal_default_exec:s0

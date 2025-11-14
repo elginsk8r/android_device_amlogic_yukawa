@@ -23,7 +23,7 @@ else
 endif
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/Image.lz4
+LOCAL_KERNEL := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/yukawa-Image.lz4
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -102,11 +102,14 @@ PRODUCT_PACKAGES += \
 	android.hardware.fastboot@1.1-impl-mock \
 	fastbootd
 
-
+#copy xml file to tell PackageManager that the system supports Verified Boot
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/fstab.yukawa.avb.ab:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.yukawa \
-    $(LOCAL_PATH)/fstab.yukawa.avb.ab:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.yukawa \
-    $(LOCAL_PATH)/fstab.yukawa.avb.ab:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/etc/fstab.yukawa
+	frameworks/native/data/etc/android.software.verified_boot.xml:system/etc/permissions/android.software.verified_boot.xml
+
+# fstab
+PRODUCT_PACKAGES += \
+	fstab.yukawa.mmc.avb \
+	fstab.yukawa.mmc.avb.vendor_ramdisk
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.rc \
