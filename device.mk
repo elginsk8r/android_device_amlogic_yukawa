@@ -103,17 +103,10 @@ PRODUCT_PACKAGES += \
 	fastbootd
 
 
-ifeq ($(TARGET_AVB_ENABLE), true)
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/fstab.yukawa.avb.ab:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.yukawa \
     $(LOCAL_PATH)/fstab.yukawa.avb.ab:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.yukawa \
     $(LOCAL_PATH)/fstab.yukawa.avb.ab:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/etc/fstab.yukawa
-else
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/fstab.yukawa.ab:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.yukawa \
-    $(LOCAL_PATH)/fstab.yukawa.ab:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.yukawa \
-    $(LOCAL_PATH)/fstab.yukawa.ab:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/etc/fstab.yukawa
-endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.rc \

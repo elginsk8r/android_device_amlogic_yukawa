@@ -46,11 +46,10 @@ PRODUCT_FULL_TREBLE := true
 BOARD_VNDK_VERSION := current
 
 # AVB
-ifeq ($(TARGET_AVB_ENABLE), true)
 BOARD_AVB_ENABLE := true
-else
-BOARD_AVB_ENABLE := false
-endif
+BOARD_AVB_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := false
@@ -62,11 +61,9 @@ AB_OTA_PARTITIONS += \
     boot \
     dtbo \
     system \
-    vendor
+    vendor \
+    vbmeta
 
-ifeq ($(TARGET_AVB_ENABLE), true)
-AB_OTA_PARTITIONS += vbmeta
-endif
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 ))) # 8 MiB
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -94,15 +91,13 @@ TARGET_USERIMAGES_SPARSE_F2FS_DISABLED ?= false
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-ifeq ($(TARGET_AVB_ENABLE), true)
+
 TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa.avb.ab
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 2
-else
-TARGET_RECOVERY_FSTAB := device/amlogic/yukawa/fstab.yukawa
-endif
+
 BOARD_INCLUDE_RECOVERY_DTBO := true
 
 
