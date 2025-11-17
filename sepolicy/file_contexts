@@ -13,6 +13,11 @@
 /dev/dma_heap/linux,cma u:object_r:dmabuf_cma_heap_device:s0
 /dev/block/by-name/frp  u:object_r:frp_block_device:s0
 
+# video devices
+/dev/media[0-4]        u:object_r:video_device:s0
+/dev/v4l-subdev.*      u:object_r:video_device:s0
+
+
 /sys/devices/platform/soc/ffe03000.sd/mmc_host(/.*)?             u:object_r:sysfs_suspend_stats:s0
 /sys/devices/platform/soc/ff800000.bus/ff8000a8.rtc/wakeup(/.*)? u:object_r:sysfs_suspend_stats:s0
 /sys/devices/platform/soc/ff800000.bus/ff8000a8.rtc/rtc/rtc0/alarmtimer.0.auto(/.*)? u:object_r:sysfs_suspend_stats:s0
@@ -40,9 +45,20 @@
 /dev/block/platform/soc/ffe07000.mmc/by-name/metadata                 u:object_r:metadata_block_device:s0
 /dev/block/platform/soc/ffe07000.mmc/by-name/frp                      u:object_r:frp_block_device:s0
 
+
+#############################
+# Vendor files
+#
+# Security
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software    u:object_r:hal_gatekeeper_default_exec:s0
-/vendor/bin/hw/android\.hardware\.thermal@2\.0-service.mock            u:object_r:hal_thermal_default_exec:s0
+/vendor/bin/hw/android\.hardware\.security\.keymint-service\.nonsecure  u:object_r:hal_keymint_default_exec:s0
+/vendor/bin/hw/android\.hardware\.authsecret-service.example u:object_r:hal_authsecret_default_exec:s0
 
 /vendor/bin/hw/android\.hardware\.drm(@[0-9]+\.[0-9]+)?-service\.widevine    u:object_r:hal_drm_widevine_exec:s0
 /vendor/bin/hw/android\.hardware\.drm@[0-9]+\.[0-9]+-service\.clearkey     u:object_r:hal_drm_clearkey_exec:s0
 /data/vendor/mediadrm(/.*)?    u:object_r:mediadrm_vendor_data_file:s0
+# Health
+/vendor/bin/hw/android\.hardware\.health-service\.cuttlefish u:object_r:hal_health_default_exec:s0
+/vendor/bin/hw/android\.hardware\.health\.storage-service\.cuttlefish u:object_r:hal_health_storage_default_exec:s0
+# Camera HAL
+/vendor/bin/hw/android\.hardware\.camera\.provider-V1-external-service          u:object_r:hal_camera_default_exec:s0

@@ -21,6 +21,8 @@ TARGET_IS_64_BIT := true
 # stripped from APKs.
 BOARD_USES_SYSTEM_OTHER_ODEX := true
 
+TARGET_BOOTLOADER_VERSION ?= 2025.10 
+
 TARGET_BOARD_PLATFORM := yukawa
 TARGET_BOOTLOADER_BOARD_NAME := $(TARGET_DEV_BOARD)
 TARGET_BOARD_INFO_FILE := device/amlogic/yukawa/board-info/board-info-$(TARGET_DEV_BOARD).txt
@@ -186,17 +188,9 @@ BOARD_VENDOR_SEPOLICY_DIRS += \
 
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
 
-DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += device/amlogic/yukawa/framework_compatibility_matrix.xml
-ifneq ($(TARGET_USE_TABLET_LAUNCHER), true)
-DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += device/amlogic/yukawa/tv_framework_compatibility_matrix.xml
-endif
-
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/sensorhal/manifest.xml
 endif
-
-# Generate an APEX image for experiment b/119800099.
-DEXPREOPT_GENERATE_APEX_IMAGE := true
 
 # Enable chained vbmeta for boot images
 BOARD_AVB_BOOT_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
@@ -260,11 +254,3 @@ BOARD_SYSTEM_KERNEL_MODULES_LOAD += $(BOARD_SYSTEM_KERNEL_MODULES)
 
 # Recovery
 TARGET_RECOVERY_FSTAB_GENRULE := gen_fstab_yukawa_mmc_avb
-# Disable Jack build system due deprecated status (https://source.android.com/source/jack)
-ANDROID_COMPILE_WITH_JACK ?= false
-
-# Enable system property split for Treble
-BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
-
-# Include stats logging code in LMKD
-TARGET_LMKD_STATS_LOG := true

@@ -1,0 +1,1 @@
+dontaudit fsck sysfs_mmc:dir { search };

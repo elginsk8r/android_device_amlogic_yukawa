@@ -1,5 +1,14 @@
 PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
 
+# Disable debug binaries for an unbundled ART build.
+# From //build/make/target/product/go_defaults_common.mk
+PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
+# Strip the local variable table and the local variable type table to reduce
+    # the size of the system image. This has no bearing on stack traces, but will
+    # leave less information available via JDWP.
+    # From //build/make/target/product/go_defaults_common.mk
+PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
+
 # Check vendor package version
 include device/amlogic/yukawa/vendor-package-ver.mk
 ifneq (,$(wildcard $(YUKAWA_VENDOR_PATH)/bt-wifi-firmware))
@@ -32,18 +41,31 @@ PRODUCT_COPY_FILES +=  $(LOCAL_KERNEL):kernel
 
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
+# Enable updating of APEXes
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
-# Enable userspace reboot
-$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
+# Enable project quotas and casefolding for emulated storage without sdcardfs
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # Enable Virtual A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
-PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 
+# Use generic ramdisk (init_boot)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+
+# pKVM
+$(call inherit-product-if-exists, packages/modules/Virtualization/apex/product_packages.mk)
 
 # Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
+
+# Set Vendor SPL to match platform
+VENDOR_SECURITY_PATCH = $(PLATFORM_SECURITY_PATCH)
+# Set boot SPL
+BOOT_SECURITY_PATCH = $(PLATFORM_SECURITY_PATCH)
+
+OVERRIDE_PRODUCT_COMPRESSED_APEX := false
 
 DEVICE_PACKAGE_OVERLAYS := device/amlogic/yukawa/overlay
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
@@ -115,7 +137,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init.yukawa.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.rc \
     $(LOCAL_PATH)/init.yukawa.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.yukawa.usb.rc \
     $(LOCAL_PATH)/init.recovery.hardware.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.yukawa.rc \
-    $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
+    $(LOCAL_PATH)/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 ifeq ($(TARGET_USE_TABLET_LAUNCHER), true)
 # Use Launcher3QuickStep
@@ -226,25 +248,21 @@ PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4 \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
-# Thermal HAL
-PRODUCT_PACKAGES += android.hardware.thermal-service.example
+# Thermal
+PRODUCT_PACKAGES += \
+	com.android.hardware.thermal.rs.generic.v3
 
 # PowerHAL
-PRODUCT_PACKAGES += \
-    android.hardware.power-service.example
-
-# PowerStats HAL
-PRODUCT_PACKAGES += \
-    android.hardware.power.stats-service.example
+PRODUCT_PACKAGES += com.android.hardware.power
 
 # Health: Install default binderized implementation to vendor.
 PRODUCT_PACKAGES += \
-    android.hardware.health-service.example \
-    android.hardware.health-service.example_recovery
+	com.google.cf.health \
+	android.hardware.health-service.cuttlefish_recovery
 
 # Health Storage
 PRODUCT_PACKAGES += \
-    android.hardware.health.storage-service.default
+    com.google.cf.health.storage
 
 # Sensor HAL
 ifneq ($(TARGET_SENSOR_MEZZANINE),)
@@ -288,14 +306,31 @@ PRODUCT_COPY_FILES += \
 endif
 endif
 
-# Software Security HAL
+#
+# Authsecret AIDL HAL
+#
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software \
-    android.hardware.security.keymint-service
+    com.android.hardware.authsecret
+
+# KeyMint.  Note that this is an insecure implementation that should not be
+# used on a production device as it does not comply with [9.11/H-0-2] of the
+# Android CDD ("Handheld device implementations MUST back up the keystore
+# implementation with an isolated execution environment").
+PRODUCT_PACKAGES += \
+    com.android.hardware.keymint.rust_nonsecure
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml
+
+# Gatekeeper.  Note that this is an insecure implementation that should not be
+# used on a production device as it does not comply with [9.11/H-0-4] of the
+# Android CDD ("Handheld device implementations MUST perform the lock screen
+# authentication in the isolated execution environment ").
+PRODUCT_PACKAGES += \
+    com.android.hardware.gatekeeper.nonsecure
 
 # USB
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.1-service
+    com.android.hardware.usb.generic
 
 PRODUCT_COPY_FILES +=  \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
@@ -318,17 +353,18 @@ PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 
 # Enable USB Camera
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.5-external-service
+PRODUCT_PACKAGES += \
+	android.hardware.camera.provider-V1-external-service
 PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/hal/camera/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
 PRODUCT_COPY_FILES +=  \
-    frameworks/native/data/etc/android.hardware.camera.concurrent.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
-    frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml
+	frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
+	frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
+	frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml \
+	device/generic/car/common/android.hardware.disable.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.ar.xml \
+	device/generic/car/common/android.hardware.disable.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
+	device/generic/car/common/android.hardware.disable.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
 
 # Include Virtualization APEX
 $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)

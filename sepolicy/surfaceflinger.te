@@ -1,0 +1,6 @@
+# Allow surfaceflinger to find graphics mapper service
+allow surfaceflinger hal_graphics_mapper_service:service_manager find;
+
+# Allow surfaceflinger to access DRM device
+allow surfaceflinger gpu_device:chr_file { open read write ioctl map };
+allow surfaceflinger gpu_device:dir { open read search };
