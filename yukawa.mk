@@ -13,14 +13,9 @@ else ifeq ($(TARGET_DEV_BOARD),)
 TARGET_DEV_BOARD := vim3l
 endif
 
-ifneq ($(filter $(TARGET_DEV_BOARD),vim3),)
-GPU_TYPE := gondul_ion
-endif
-
 $(call inherit-product, device/amlogic/yukawa/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
-GPU_TYPE ?= dvalin_ion
 
 BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)
 
