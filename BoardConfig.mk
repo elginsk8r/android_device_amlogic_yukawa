@@ -4,16 +4,18 @@
 # The generic product target doesn't have any hardware-specific pieces.
 # Primary Arch
 TARGET_ARCH := arm64
-TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
-TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_ABI2 :=
 
-# Secondary Arch
-TARGET_2ND_ARCH := arm
-TARGET_2ND_ARCH_VARIANT := armv8-a
-TARGET_2ND_CPU_ABI := armeabi-v7a
-TARGET_2ND_CPU_ABI2 := armeabi
-TARGET_2ND_CPU_VARIANT := cortex-a53
+# VIM3L (S905D3): Cortex-A55, ARMv8.2-A
+# VIM3 (S922X): Cortex-A73 + A53 big.LITTLE, ARMv8-A
+ifeq ($(TARGET_DEV_BOARD), vim3)
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_VARIANT := cortex-a73
+else
+TARGET_ARCH_VARIANT := armv8-2a
+TARGET_CPU_VARIANT := cortex-a55
+endif
 
 TARGET_IS_64_BIT := true
 
@@ -155,6 +157,7 @@ BOARD_KERNEL_CMDLINE += no_console_suspend console=ttyAML0,115200 earlycon
 BOARD_KERNEL_CMDLINE += printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += init=/init
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
+BOARD_KERNEL_CMDLINE += cma=576M
 
 BOARD_BOOTCONFIG += androidboot.hardware=yukawa
 BOARD_BOOTCONFIG += androidboot.boot_devices=soc/ffe07000.mmc
@@ -182,6 +185,9 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := build/make/target/board/mainline_
 
 BOARD_VENDOR_SEPOLICY_DIRS += \
         device/amlogic/yukawa/sepolicy
+
+PRODUCT_PRIVATE_SEPOLICY_DIRS += \
+		device/amlogic/yukawa/sepolicy-private
 
 DEVICE_MANIFEST_FILE += device/amlogic/yukawa/manifest.xml
 
