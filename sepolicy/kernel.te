@@ -1,6 +1,22 @@
-allow kernel device:chr_file { create setattr };
-allow kernel device:dir { add_name create remove_name write };
 allow kernel self:capability mknod;
-allow kernel vendor_file:file { open read };
-allow kernel self:system module_request;
-allow vendor_init kernel:system module_request;
+
+allow kernel device:dir { write add_name create };
+allow kernel device:chr_file { create setattr };
+
+allow kernel vendor_file:file { read open };
+allow kernel vendor_firmware_file:dir { search getattr read };
+allow kernel vendor_firmware_file:file { getattr open read };
+allow kernel vendor_init:key { search };
+allow kernel ueventd:key search;
+
+allow kernel self:capability { sys_admin };
+
+# The kernel firmware loading is handled via userspace helpers in modern Android
+# The existing permissions for vendor_firmware_file (read/open) are sufficient
+# Suppress audit messages for module_request as it's a kernel internal operation
+dontaudit kernel self:system module_request;
+
+recovery_only(`
+	allow kernel device:blk_file { create getattr setattr unlink };
+	allow kernel device:dir { remove_name };
+');

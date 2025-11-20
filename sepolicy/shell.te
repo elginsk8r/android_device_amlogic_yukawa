@@ -1,0 +1,10 @@
+allow shell sysfs_power_supply:dir { open read search };
+allow shell serial_device:chr_file { getattr ioctl read write };
+
+get_prop(shell, device_config_runtime_native_boot_prop)
+
+# Vendor property access via shell violates Treble neverallow
+# Use getprop from vendor context if needed
+
+# b/303346666
+dontaudit shell adbd:{ socket vsock_socket } rw_socket_perms_no_ioctl;

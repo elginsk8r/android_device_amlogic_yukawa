@@ -1,0 +1,2 @@
+# Allow mediaswcodec to find graphics mapper service
+allow mediaswcodec hal_graphics_mapper_service:service_manager find;

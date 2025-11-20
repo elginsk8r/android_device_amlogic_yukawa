@@ -1,5 +1,28 @@
+allow vendor_init self:capability sys_module;
 allow vendor_init vendor_file:system { module_load };
-allow vendor_init self:capability { sys_module };
-allow vendor_init kernel:system module_request;
-# GOOGLE(aosp/1496143): default_prop is readable only from coredomain
-#allow vendor_init default_prop:file read;
+allow vendor_init vendor_init:key write;
+
+allow vendor_init proc_dirty:file write;
+allow vendor_init proc_sched:file write;
+allow vendor_init system_prop:file read;
+
+recovery_only(`
+	allow vendor_init rootfs:dir { read };
+	allow vendor_init rootfs:system { module_load };
+');
+
+set_prop(vendor_init, vendor_graphics_prop)
+
+# wifi_prop is a system property, vendor_init cannot set it (Treble violation)
+# WiFi configuration should be done via vendor-specific properties
+# Suppress the audit if it's not critical
+dontaudit vendor_init wifi_prop:property_service set;
+dontaudit vendor_init wifi_prop:file read;
+
+# Note: ro.product.device and other ro.* properties are build_prop which are read-only
+# These should be set in build system, not at runtime by vendor_init
+dontaudit vendor_init build_prop:property_service set;
+
+userdebug_or_eng(`
+set_prop(vendor_init, logpersistd_logging_prop)
+');

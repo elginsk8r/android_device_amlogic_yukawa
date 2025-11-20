@@ -1,1 +1,4 @@
-dontaudit fsck sysfs_mmc:dir { search };
+# Allow fsck to access MMC sysfs attributes for filesystem checks
+# This is needed to check zoned device properties and partition information
+allow fsck sysfs_mmc:dir { search getattr };
+allow fsck sysfs_mmc:file { getattr open read };
