@@ -70,4 +70,25 @@
         <name>Capture Volume</name>
         <name>Mic Capture Volume</name>
     </control>
+
+    <!-- Initialization controls - applied once at HAL startup -->
+    <init>
+        <!-- Enable HDMI audio output -->
+        <set name="TOHDMITX Switch" value="1"/>
+
+        <!-- Configure Amlogic G12A audio routing: FRDDR_A -> TDMOUT_A -> TOHDMITX -->
+        <set name="TOHDMITX I2S SRC" value="I2S A"/>
+        <set name="TDMOUT_A SRC SEL" value="IN 0"/>
+        <set name="FRDDR_A SRC 1 EN Switch" value="1"/>
+        <set name="FRDDR_A SINK 1 SEL" value="OUT 0"/>
+
+        <!-- Set TDMOUT_A volume to maximum for all lanes -->
+        <set name="TDMOUT_A Lane 0 Volume" value="255,255"/>
+        <set name="TDMOUT_A Lane 1 Volume" value="255,255"/>
+        <set name="TDMOUT_A Lane 2 Volume" value="255,255"/>
+        <set name="TDMOUT_A Lane 3 Volume" value="255,255"/>
+
+        <!-- Enable TDMOUT_A gain control -->
+        <set name="TDMOUT_A Gain Enable Switch" value="1"/>
+    </init>
 </mixerControls>
