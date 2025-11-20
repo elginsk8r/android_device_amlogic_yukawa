@@ -1,10 +1,15 @@
 # Graphics #
+# Select the correct Mesa variant based on board
 ifeq ($(TARGET_DEV_BOARD), vim3l)
-PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/mesa/a55
+PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/20251114/mesa/a55
+PRODUCT_SOONG_NAMESPACES += external/minigbm/gbm_mesa_driver
+PRODUCT_PACKAGES += libgbm_mesa_wrapper_a55
 else
-PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/mesa/a73
+PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/20251114/mesa/a73
+PRODUCT_SOONG_NAMESPACES += external/minigbm/gbm_mesa_driver/a73
+PRODUCT_PACKAGES += libgbm_mesa_wrapper_a73
 endif
-PRODUCT_VENDOR_PROPERTIES += ro.sf.lcd_density=160
+PRODUCT_VENDOR_PROPERTIES += ro.sf.lcd_density=200
 # HWUI VULKAN not working with mesa 25.3
 # TARGET_USES_VULKAN = true
 
@@ -25,8 +30,10 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator-service.minigbm \
     gralloc.minigbm \
     libminigbm_gralloc \
-    mapper.minigbm \
-    libgbm_mesa_wrapper
+    mapper.minigbm
+
+# sepolicy
+BOARD_VENDOR_SEPOLICY_DIRS += external/minigbm/cros_gralloc/sepolicy
 
 # Mesa GBM backend path
 PRODUCT_VENDOR_PROPERTIES += \
@@ -38,7 +45,9 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.hardware.gralloc=minigbm \
     vendor.gralloc.minigbm.backend=gbm_mesa \
     vendor.mesa.gbm_backends_path=/vendor/lib64/gbm \
-    debug.renderengine.backend=skiaglthreaded
+    debug.renderengine.backend=skiaglthreaded \
+    ro.vendor.hwc.use_overlay_planes=0 \
+    vendor.hwc.drm.scale_with_gpu=1
 
 # Hardware Composer HAL
 #
@@ -54,3 +63,5 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.opengles.version=196864
+
+$(call inherit-product-if-exists, $(YUKAWA_VENDOR_PATH)/gpu/$(EXPECTED_YUKAWA_VENDOR_VERSION)/vendor.mk)
