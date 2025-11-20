@@ -17,7 +17,7 @@ $(call inherit-product, device/amlogic/yukawa/device.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += ro.product.device=$(TARGET_DEV_BOARD)
 
-BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)
+BOARD_KERNEL_DTB := device/amlogic/yukawa-kernel/$(TARGET_KERNEL_USE)/dtbs
 
 ifeq ($(TARGET_PREBUILT_DTB),)
 LOCAL_DTB := $(BOARD_KERNEL_DTB)
@@ -30,7 +30,7 @@ PRODUCT_COPY_FILES += \
     device/amlogic/yukawa/permissions/yukawa.xml:/system/etc/sysconfig/yukawa.xml
 
 
-PRODUCT_SHIPPING_API_LEVEL := 31
+PRODUCT_SHIPPING_API_LEVEL := 36
 # Enforce the Product interface
 PRODUCT_PRODUCT_VNDK_VERSION := current
 

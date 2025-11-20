@@ -1,5 +1,5 @@
 PRODUCT_SOONG_NAMESPACES += device/amlogic/yukawa
-
+PRODUCT_SOONG_NAMESPACES += hardware/amlogic/yukawa
 # Disable debug binaries for an unbundled ART build.
 # From //build/make/target/product/go_defaults_common.mk
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
@@ -234,6 +234,8 @@ PRODUCT_PACKAGES += \
     com.android.hardware.gatekeeper.nonsecure
 
 # USB
+BOARD_VENDOR_SEPOLICY_DIRS += hardware/amlogic/yukawa/usb/aidl/sepolicy
+
 PRODUCT_PACKAGES += \
     com.android.hardware.usb.generic
 
@@ -248,12 +250,6 @@ PRODUCT_COPY_FILES +=  \
     frameworks/native/data/etc/android.software.cts.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.cts.xml \
     frameworks/native/data/etc/android.software.backup.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.backup.xml
 
-# Copy media codecs config file
-PRODUCT_COPY_FILES += \
-    frameworks/av/media/libstagefright/data/media_codecs_google_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
-    device/amlogic/yukawa/media_xml/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 
 # Include Virtualization APEX
 $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
@@ -272,3 +268,9 @@ $(call inherit-product, device/amlogic/yukawa/hal/sensorhal/device_vendor.mk)
 
 # Camera
 $(call inherit-product, device/amlogic/yukawa/hal/camera/device_vendor.mk)
+
+# Audio 
+$(call inherit-product, device/amlogic/yukawa/hal/audio/device_vendor.mk)
+
+# Media 
+$(call inherit-product, device/amlogic/yukawa/hal/media/device_vendor.mk)
