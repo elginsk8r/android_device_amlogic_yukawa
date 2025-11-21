@@ -1,0 +1,2 @@
+# Suppress audits for oat_primary directory creation - neverallow prevents appdomain write to system_data_file
+dontaudit secure_element system_data_file:dir { add_name create write };
