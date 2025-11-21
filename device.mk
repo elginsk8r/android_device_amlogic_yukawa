@@ -174,18 +174,21 @@ PRODUCT_PACKAGES += \
     android.hardware.drm-service.widevine \
     android.hardware.drm@latest-service.clearkey
 
-# CEC on ATV only
+# HDMI CEC and Connection HALs (AIDL) on ATV only
 ifeq ($(PRODUCT_IS_ATV), true)
 PRODUCT_PACKAGES += \
-    android.hardware.tv.cec@1.0-impl \
-    android.hardware.tv.cec@1.0-service \
-    hdmi_cec.yukawa
+    android.hardware.tv.hdmi.cec-service.generic \
+    android.hardware.tv.hdmi.connection-service.generic
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hdmi.cec_device_types=playback_device
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.hdmi.cec.xml:system/etc/permissions/android.hardware.hdmi.cec.xml
+
+BOARD_VENDOR_SEPOLICY_DIRS += \
+    hardware/amlogic/yukawa/hdmi/cec/sepolicy \
+    hardware/amlogic/yukawa/hdmi/connection/sepolicy
 endif
 
 # HDMI display
