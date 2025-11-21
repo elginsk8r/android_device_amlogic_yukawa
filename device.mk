@@ -195,10 +195,6 @@ PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4 \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
-# Thermal
-PRODUCT_PACKAGES += \
-	com.android.hardware.thermal.rs.generic.v3
-
 # PowerHAL
 PRODUCT_PACKAGES += com.android.hardware.power
 
@@ -269,8 +265,11 @@ $(call inherit-product, device/amlogic/yukawa/hal/sensorhal/device_vendor.mk)
 # Camera
 $(call inherit-product, device/amlogic/yukawa/hal/camera/device_vendor.mk)
 
-# Audio 
+# Audio
 $(call inherit-product, device/amlogic/yukawa/hal/audio/device_vendor.mk)
 
-# Media 
+# Media
 $(call inherit-product, device/amlogic/yukawa/hal/media/device_vendor.mk)
+
+# Thermal
+$(call inherit-product, device/amlogic/yukawa/hal/thermal/device_vendor.mk)
