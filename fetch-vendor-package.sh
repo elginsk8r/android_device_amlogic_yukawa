@@ -2,8 +2,8 @@
 # fetch, check & extract the current vendor package
 set -e
 
-EXPECTED_YUKAWA_VENDOR_VERSION=20251114
-EXPECTED_YUKAWA_VENDOR_SHA=0a96d860e411e1cd4305fcf78f4e868a190378b0788c29290dc4f777feb37ba807f3f88dcf0a59f63c23575a2adfbaacda80232f991a538a6da7e2918ac42597
+EXPECTED_YUKAWA_VENDOR_VERSION=20251123
+EXPECTED_YUKAWA_VENDOR_SHA=ca51dbbc41415ef62383e8247d92faf0dadd9e2e8ed7449781540baf12eee4667dc46ef22a6873158c630cc6fd9db7b460353ec364e82ccd2f95e87b29c3987d
 
 DIR_PARENT=$(cd $(dirname $0); pwd)
 if [ -z "${ANDROID_BUILD_TOP}" ]; then
@@ -32,4 +32,8 @@ fi
 
 tar -xf ${PKG_FILE}.tgz
 ./${PKG_FILE}.sh
+
+sed -i "s|vendor/amlogic/yukawa/gpu/[0-9]*/mesa/a55|vendor/amlogic/yukawa/gpu/${EXPECTED_YUKAWA_VENDOR_VERSION}/mesa/a55|" external/minigbm/gbm_mesa_driver/Android.bp
+sed -i "s|vendor/amlogic/yukawa/gpu/[0-9]*/mesa/a73|vendor/amlogic/yukawa/gpu/${EXPECTED_YUKAWA_VENDOR_VERSION}/mesa/a73|" external/minigbm/gbm_mesa_driver/a73/Android.bp
+
 popd
