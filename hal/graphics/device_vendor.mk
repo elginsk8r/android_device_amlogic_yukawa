@@ -1,11 +1,11 @@
 # Graphics #
 # Select the correct Mesa variant based on board
 ifeq ($(TARGET_DEV_BOARD), vim3l)
-PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/20251114/mesa/a55
+PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/$(EXPECTED_YUKAWA_VENDOR_VERSION)/mesa/a55
 PRODUCT_SOONG_NAMESPACES += external/minigbm/gbm_mesa_driver
 PRODUCT_PACKAGES += libgbm_mesa_wrapper_a55
 else
-PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/20251114/mesa/a73
+PRODUCT_SOONG_NAMESPACES += vendor/amlogic/yukawa/gpu/$(EXPECTED_YUKAWA_VENDOR_VERSION)/mesa/a73
 PRODUCT_SOONG_NAMESPACES += external/minigbm/gbm_mesa_driver/a73
 PRODUCT_PACKAGES += libgbm_mesa_wrapper_a73
 endif
@@ -55,7 +55,8 @@ PRODUCT_PACKAGES += android.hardware.composer.hwc3-service.drm
 
 # Display settings (windowing, system decorations, IME ...)
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/display_settings.xml:$(TARGET_COPY_OUT_VENDOR)/etc/display_settings.xml
+    $(LOCAL_PATH)/display_settings.xml:$(TARGET_COPY_OUT_VENDOR)/etc/display_settings.xml \
+    $(LOCAL_PATH)/android.hardware.screen.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.screen.xml
 
 # Create input surface on the framework side
 PRODUCT_VENDOR_PROPERTIES += \

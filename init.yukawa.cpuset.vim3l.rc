@@ -1,0 +1,53 @@
+# CPU affinity configuration for VIM3L (S905D3 - SMP)
+# cpu0-3: Cortex-A55 @ 1.908 GHz max (all identical - no big.LITTLE)
+# Strategy: Limit background to free up cores for foreground performance
+
+on init
+    # Configure cpusets for symmetric multiprocessing
+    # Background: Use minimal CPUs (0-1) to maximize foreground performance
+    write /dev/cpuset/background/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-1
+    write /dev/cpuset/restricted/cpus 0
+
+    # Foreground: Use all 4 CPUs for maximum responsiveness
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/foreground_window/cpus 0-3
+    write /dev/cpuset/top-app/cpus 0-3
+
+    # Camera daemon: Use all CPUs for best performance
+    write /dev/cpuset/camera-daemon/cpus 0-3
+    write /dev/cpuset/camera-daemon-high-group/cpus 0-3
+    write /dev/cpuset/camera-daemon-mid-group/cpus 0-3
+    write /dev/cpuset/camera-daemon-mid-high-group/cpus 0-3
+
+on boot
+    # Force all CPUs active during boot for faster startup
+    # All cores are identical on VIM3L, so use them all
+
+on init
+    # VIM3L-specific optimizations (S905D3, DDR4)
+    write /sys/block/mmcblk0/queue/read_ahead_kb 1024
+    write /sys/block/dm-0/queue/read_ahead_kb 1024
+    write /sys/block/dm-1/queue/read_ahead_kb 1024
+    write /proc/sys/vm/extra_free_kbytes 16384
+
+    # change permissions and default values for camera-daemon cpu controller
+    chown system system /dev/cpuctl/camera-daemon/cgroup.procs
+
+    mkdir /dev/cpuset/camera-daemon-high-group
+    write /dev/cpuset/camera-daemon-high-group/mems 0
+    chown system system /dev/cpuset/camera-daemon-high-group/tasks
+    chmod 0664 /dev/cpuset/camera-daemon-high-group/tasks
+
+    mkdir /dev/cpuset/camera-daemon-mid-group
+    write /dev/cpuset/camera-daemon-mid-group/mems 0
+    chown system system /dev/cpuset/camera-daemon-mid-group/tasks
+    chmod 0664 /dev/cpuset/camera-daemon-mid-group/tasks
+
+    mkdir /dev/cpuset/camera-daemon-mid-high-group
+    write /dev/cpuset/camera-daemon-mid-high-group/mems 0
+    chown system system /dev/cpuset/camera-daemon-mid-high-group/tasks
+    chmod 0664 /dev/cpuset/camera-daemon-mid-high-group/tasks
+
+    chown system system /dev/cpuset/cgroup.procs
+

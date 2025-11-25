@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Power profile for Khadas VIM3L (Amlogic S905D3)
+    SoC: S905D3 (SM1)
+    CPUs: 4x Cortex-A55 @ 1.908 GHz max (symmetric, no big.LITTLE)
+-->
+<device name="Android">
+    <!-- All values are rough estimates based on A55 datasheets -->
+
+    <!-- Screen brightness power consumption -->
+    <item name="screen.on">150</item>
+    <item name="screen.full">250</item>
+
+    <!-- CPU power consumption at different speeds (mA) -->
+    <!-- Single cluster: Cortex-A55 - cpu0,1,2,3 -->
+    <array name="cpu.clusters.cores">
+        <value>4</value> <!-- 4 identical A55 cores -->
+    </array>
+
+    <!-- A55 cluster power at different speeds -->
+    <array name="cpu.core_speeds.cluster0">
+        <value>1000000</value> <!-- 1.0 GHz -->
+        <value>1200000</value> <!-- 1.2 GHz -->
+        <value>1404000</value> <!-- 1.404 GHz -->
+        <value>1500000</value> <!-- 1.5 GHz -->
+        <value>1608000</value> <!-- 1.608 GHz -->
+        <value>1704000</value> <!-- 1.704 GHz -->
+        <value>1800000</value> <!-- 1.8 GHz -->
+        <value>1908000</value> <!-- 1.908 GHz -->
+    </array>
+
+    <array name="cpu.core_power.cluster0">
+        <value>35</value>  <!-- 1.0 GHz -->
+        <value>42</value>  <!-- 1.2 GHz -->
+        <value>52</value>  <!-- 1.404 GHz -->
+        <value>60</value>  <!-- 1.5 GHz -->
+        <value>70</value>  <!-- 1.608 GHz -->
+        <value>82</value>  <!-- 1.704 GHz -->
+        <value>95</value>  <!-- 1.8 GHz -->
+        <value>110</value> <!-- 1.908 GHz -->
+    </array>
+
+    <!-- Additional CPU power consumption -->
+    <item name="cpu.suspend">4</item>
+    <item name="cpu.idle">3</item>
+    <item name="cpu.awake">6</item>
+
+    <!-- WiFi -->
+    <item name="wifi.on">2</item>
+    <item name="wifi.active">120</item>
+    <item name="wifi.scan">150</item>
+
+    <!-- Bluetooth -->
+    <item name="bluetooth.active">50</item>
+    <item name="bluetooth.on">2</item>
+
+    <!-- Radio (not present on VIM3L) -->
+    <item name="radio.active">0</item>
+    <item name="radio.scanning">0</item>
+
+    <!-- GPS (not present on VIM3L) -->
+    <item name="gps.on">0</item>
+
+    <!-- Audio -->
+    <item name="audio">20</item>
+    <item name="video">50</item>
+
+    <!-- Camera -->
+    <item name="camera.flashlight">150</item>
+    <item name="camera.avg">400</item>
+</device>
