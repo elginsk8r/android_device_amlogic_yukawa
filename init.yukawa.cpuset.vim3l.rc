@@ -25,11 +25,15 @@ on boot
     # All cores are identical on VIM3L, so use them all
 
 on init
-    # VIM3L-specific optimizations (S905D3, DDR4)
-    write /sys/block/mmcblk0/queue/read_ahead_kb 1024
-    write /sys/block/dm-0/queue/read_ahead_kb 1024
-    write /sys/block/dm-1/queue/read_ahead_kb 1024
-    write /proc/sys/vm/extra_free_kbytes 16384
+    # VIM3L-specific optimizations (S905D3, DDR4, low RAM)
+    write /sys/block/mmcblk0/queue/read_ahead_kb 512
+    write /sys/block/dm-0/queue/read_ahead_kb 512
+    write /sys/block/dm-1/queue/read_ahead_kb 512
+    write /proc/sys/vm/extra_free_kbytes 12288
+
+    # Aggressive memory management for low RAM device
+    write /proc/sys/vm/watermark_scale_factor 200
+    write /proc/sys/vm/compact_unevictable_allowed 0
 
     # change permissions and default values for camera-daemon cpu controller
     chown system system /dev/cpuctl/camera-daemon/cgroup.procs

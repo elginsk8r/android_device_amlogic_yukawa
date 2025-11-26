@@ -47,7 +47,12 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.mesa.gbm_backends_path=/vendor/lib64/gbm \
     debug.renderengine.backend=skiaglthreaded \
     ro.vendor.hwc.use_overlay_planes=0 \
-    vendor.hwc.drm.scale_with_gpu=1
+    vendor.hwc.drm.scale_with_gpu=1 \
+    ro.surface_flinger.max_frame_buffer_acquired_buffers=2 \
+    ro.surface_flinger.max_graphics_buffers=3 \
+    debug.sf.disable_client_composition_cache=1 \
+    debug.sf.latch_unsignaled=0 \
+    ro.surface_flinger.use_content_detection_for_refresh_rate=false
 
 # Hardware Composer HAL
 #

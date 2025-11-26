@@ -15,21 +15,28 @@ on early-init
 on init
     # ZRAM setup
     write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/swappiness 100
 
     # Some user code relies on ro.boot.hardware.revision
     setprop ro.boot.hardware.revision ${ro.revision}
 
-    # Apply network parameters for high data performance.
-    write /proc/sys/net/core/rmem_default 327680
-    write /proc/sys/net/core/rmem_max 8388608
-    write /proc/sys/net/core/wmem_default 327680
-    write /proc/sys/net/core/wmem_max 8388608
-    write /proc/sys/net/core/optmem_max 20480
-    write /proc/sys/net/core/netdev_max_backlog 10000
-    write /proc/sys/net/ipv4/tcp_rmem "2097152 4194304 8388608"
-    write /proc/sys/net/ipv4/tcp_wmem "262144 524288 1048576"
-    write /proc/sys/net/ipv4/tcp_mem "44259 59012 88518"
-    write /proc/sys/net/ipv4/udp_mem "88518 118025 177036"
+    # Apply network parameters optimized for low RAM
+    write /proc/sys/net/core/rmem_default 163840
+    write /proc/sys/net/core/rmem_max 4194304
+    write /proc/sys/net/core/wmem_default 163840
+    write /proc/sys/net/core/wmem_max 4194304
+    write /proc/sys/net/core/optmem_max 10240
+    write /proc/sys/net/core/netdev_max_backlog 5000
+    write /proc/sys/net/ipv4/tcp_rmem "1048576 2097152 4194304"
+    write /proc/sys/net/ipv4/tcp_wmem "131072 262144 524288"
+    write /proc/sys/net/ipv4/tcp_mem "22129 29506 44259"
+    write /proc/sys/net/ipv4/udp_mem "44259 59012 88518"
+
+    # Additional low memory optimizations
+    write /proc/sys/vm/vfs_cache_pressure 200
+    write /proc/sys/vm/dirty_background_ratio 5
+    write /proc/sys/vm/dirty_ratio 10
+    write /proc/sys/vm/min_free_kbytes 8192
 
 
 
@@ -42,6 +49,10 @@ on boot
     # Set up kernel tracing, but disable it by default
     chmod 0222 /sys/kernel/debug/tracing/trace_marker
     write /sys/kernel/debug/tracing/tracing_on 0
+
+    # Limit background processes for low RAM
+    setprop ro.sys.fw.bg_apps_limit 8
+    setprop ro.vendor.perf.cores_online 4
 
 on early-fs
     # Start bootanimation class before mount
@@ -59,7 +70,17 @@ on post-fs
 
 on late-fs
     mount_all --late
+    # Load ZRAM modules before swap activation
+    exec_start load_zram_modules
     swapon_all
+
+service load_zram_modules /vendor/bin/modprobe -a -d /system_dlkm/lib/modules zsmalloc zram
+    class core
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:modprobe:s0
 
 on post-fs-data
     # Create the directories used by the Wireless subsystem

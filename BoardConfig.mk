@@ -160,7 +160,7 @@ BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
 ifeq ($(TARGET_DEV_BOARD), vim3)
 BOARD_KERNEL_CMDLINE += cma=576M
 else
-BOARD_KERNEL_CMDLINE += cma=256M
+BOARD_KERNEL_CMDLINE += cma=320M
 endif
 
 BOARD_BOOTCONFIG += androidboot.hardware=yukawa
