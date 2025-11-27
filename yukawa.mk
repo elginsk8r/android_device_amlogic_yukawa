@@ -102,3 +102,7 @@ endif
 
 # Speed profile services and wifi-service to reduce RAM and storage.
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
+
+# flash script
+PRODUCT_COPY_FILES += \
+	device/amlogic/yukawa/flash.sh:$(TARGET_OUT)/flash.sh
