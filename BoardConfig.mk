@@ -38,7 +38,10 @@ BOARD_INSTALL_OPENCL := true
 # BT configs
 BOARD_HAVE_BLUETOOTH := true
 
-# generic wifi
+# WiFi - brcmfmac (mainline kernel) with bcmdhd libs for compatibility
+BOARD_WLAN_DEVICE := bcmdhd
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_HOSTAPD_DRIVER := NL80211
@@ -158,6 +161,8 @@ BOARD_KERNEL_CMDLINE += printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += init=/init
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
 BOARD_KERNEL_CMDLINE += log_buf_len=1M
+# Disable brcmfmac authentication offloading (SWSUP) to fix WPA2 handshake issues
+BOARD_KERNEL_CMDLINE += brcmfmac.feature_disable=0x82000
 ifeq ($(TARGET_DEV_BOARD), vim3)
 BOARD_KERNEL_CMDLINE += cma=576M
 else
