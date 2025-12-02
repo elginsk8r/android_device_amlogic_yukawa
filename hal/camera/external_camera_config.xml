@@ -1,8 +1,6 @@
 <ExternalCamera>
     <Provider>
-        <ignore> <!-- Internal video devices to be ignored by external camera HAL -->
-            <id>0</id>
-        </ignore>
+        <!-- No devices ignored - USB cameras use video0/video1 -->
     </Provider>
     <Device>
         <MaxJpegBufferSize bytes="3145728"/>
