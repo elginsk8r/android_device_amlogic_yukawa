@@ -1,11 +1,18 @@
-# Audio properties for Amlogic Yukawa (S905D3/G12A)
+# Audio properties for Amlogic Yukawa (Khadas VIM3/VIM3L)
 #
 # These properties configure the BayLibre Generic Audio HAL for Yukawa.
 
 # ALSA card and device configuration
-# Default to card 0, device 0 (typical for Amlogic G12A)
+# Use card name for dynamic detection (handles USB devices changing card indices)
+# Fall back to card 0, device 0 if name not found
+ifeq ($(TARGET_DEV_BOARD), vim3l)
+    AUDIO_CARD_NAME := G12BKHADASVIM3L
+else
+    AUDIO_CARD_NAME := KHADASVIM3
+endif
+
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.vendor.audio.primary.card=0 \
+    persist.vendor.audio.primary.card_name=$(AUDIO_CARD_NAME) \
     persist.vendor.audio.primary.device=0
 
 # Mixer controls configuration file location
