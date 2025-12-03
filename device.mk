@@ -200,6 +200,11 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4 \
     persist.sys.hdmi.keep_awake=false
 
+# Disable predictive back animations to avoid SystemUI crash
+# Bug: NullPointerException in CrossActivityBackAnimation$onGestureCommitted$1.onAnimationUpdate
+PRODUCT_PROPERTY_OVERRIDES += persist.wm.debug.predictive_back=0 \
+    persist.wm.debug.predictive_back_anim=0
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
