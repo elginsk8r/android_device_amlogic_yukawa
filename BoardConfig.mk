@@ -166,7 +166,8 @@ BOARD_KERNEL_CMDLINE += brcmfmac.feature_disable=0x82000
 ifeq ($(TARGET_DEV_BOARD), vim3)
 BOARD_KERNEL_CMDLINE += cma=576M
 else
-BOARD_KERNEL_CMDLINE += cma=320M
+# VIM3L has only 2GB RAM, use smaller CMA to avoid memory pressure at boot
+BOARD_KERNEL_CMDLINE += cma=192M
 endif
 
 BOARD_BOOTCONFIG += androidboot.hardware=yukawa
