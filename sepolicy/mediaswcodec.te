@@ -1,6 +1,8 @@
 # Allow mediaswcodec to find graphics mapper service
 allow mediaswcodec hal_graphics_mapper_service:service_manager find;
 
-# Suppress audits for vendor property access (Treble compliance)
-dontaudit mediaswcodec vendor_graphics_prop:file {open getattr read map};
-dontaudit mediaswcodec vendor_default_prop:file {open getattr read map};
+# Allow reading vendor graphics properties
+get_prop(mediaswcodec, vendor_graphics_prop)
+
+# Suppress audits for vendor_default_prop access (Treble compliance)
+dontaudit mediaswcodec vendor_default_prop:file { read open getattr map };
