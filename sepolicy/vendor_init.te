@@ -23,6 +23,15 @@ dontaudit vendor_init wifi_prop:file read;
 # These should be set in build system, not at runtime by vendor_init
 dontaudit vendor_init build_prop:property_service set;
 
+# ro.surface_flinger.* properties are system properties, suppress audit
+dontaudit vendor_init default_prop:property_service set;
+
+# persist.wm.debug.* properties are system properties, suppress audit
+dontaudit vendor_init persist_wm_debug_prop:property_service set;
+
+# Allow writing to /proc/sys/vm/vfs_cache_pressure
+allow vendor_init proc:file write;
+
 userdebug_or_eng(`
 set_prop(vendor_init, logpersistd_logging_prop)
 ');
