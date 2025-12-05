@@ -1,15 +1,5 @@
 # Allow untrusted_app_30 to access graphics services for rendering
 allow untrusted_app_30 hal_graphics_mapper_service:service_manager find;
 
-# Allow access to sysfs_vpu for DRM/graphics operations
-allow untrusted_app_30 sysfs_vpu:dir { search getattr };
-allow untrusted_app_30 sysfs_vpu:file { getattr open read };
-
-# Allow access to sysfs_gpu for graphics operations (needed for GPU rendering)
-allow untrusted_app_30 sysfs_gpu:dir { search getattr };
-allow untrusted_app_30 sysfs_gpu:file { getattr open read };
-
-# Suppress audits for vendor property access (Treble compliance)
-dontaudit untrusted_app_30 vendor_graphics_prop:file {open getattr read map};
-dontaudit untrusted_app_30 vendor_default_prop:file {open getattr read map};
-
+# Suppress audits for vendor_default_prop access (Treble compliance)
+dontaudit untrusted_app_30 vendor_default_prop:file { open getattr read map };
