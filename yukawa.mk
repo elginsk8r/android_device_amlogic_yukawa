@@ -51,7 +51,11 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.model=$(PRODUCT_DEVICE)
 
 ifeq ($(TARGET_DEV_BOARD), vim3l)
-# Set lowram options
+# =============================================================================
+# Low-RAM optimizations for VIM3L (2GB RAM)
+# =============================================================================
+
+# Dalvik/ART heap configuration for low RAM
 PRODUCT_VENDOR_PROPERTIES += \
 	dalvik.vm.heapstartsize=1m \
 	dalvik.vm.heapgrowthlimit=128m \
@@ -60,6 +64,11 @@ PRODUCT_VENDOR_PROPERTIES += \
 	dalvik.vm.heapminfree=512k \
 	dalvik.vm.heapmaxfree=2m \
 	dalvik.vm.usejit=true \
+	dalvik.vm.dex2oat-threads=2 \
+	dalvik.vm.image-dex2oat-threads=2
+
+# Low Memory Killer tuning - aggressive for 2GB
+PRODUCT_VENDOR_PROPERTIES += \
 	ro.lmk.medium=700 \
 	ro.lmk.critical=800 \
 	ro.lmk.critical_upgrade=true \
@@ -67,15 +76,25 @@ PRODUCT_VENDOR_PROPERTIES += \
 	ro.lmk.downgrade_pressure=60 \
 	ro.lmk.kill_heaviest_task=false \
 	ro.lmk.use_minfree_levels=true \
-	pm.dexopt.downgrade_after_inactive_days=10 \
-	pm.dexopt.shared=quicken
+	ro.lmk.use_psi=true \
+	ro.lmk.psi_partial_stall_ms=70 \
+	ro.lmk.thrashing_limit=30 \
+	ro.lmk.swap_free_low_percentage=10
 
+# DEX optimization for low RAM
+PRODUCT_VENDOR_PROPERTIES += \
+	pm.dexopt.downgrade_after_inactive_days=10 \
+	pm.dexopt.shared=quicken \
+	pm.dexopt.install=quicken \
+	pm.dexopt.bg-dexopt=quicken
+
+# Core low-RAM flags
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.config.low_ram=true \
 	ro.config.avoid_gfx_accel=true \
 	config.disable_consumerir=true
 
-# Additional memory optimizations
+# HWUI cache reduction (significant RAM savings)
 PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.force_highendgfx=false \
 	ro.hwui.texture_cache_size=24 \
@@ -85,9 +104,34 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.hwui.shape_cache_size=1 \
 	ro.hwui.gradient_cache_size=0.5 \
 	ro.hwui.drop_shadow_cache_size=2 \
+	ro.hwui.r_buffer_cache_size=2 \
+	ro.hwui.text_small_cache_width=512 \
+	ro.hwui.text_small_cache_height=256 \
+	ro.hwui.text_large_cache_width=1024 \
+	ro.hwui.text_large_cache_height=256
+
+# Background process limits
+PRODUCT_PROPERTY_OVERRIDES += \
 	ro.config.max_starting_bg=4 \
-	ro.vendor.qti.sys.fw.bservice_enable=false \
-	ro.statsd.enable=false
+	ro.sys.fw.bg_apps_limit=16 \
+	ro.sys.fw.bservice_limit=3 \
+	ro.sys.fw.bservice_age=5000 \
+	ro.sys.fw.bservice_enable=true \
+	ro.sys.fw.empty_app_percent=50
+
+# Disable memory-hungry services
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.statsd.enable=false \
+	persist.traced.enable=0 \
+	persist.traced_perf.enable=0 \
+	persist.heapprofd.enable=0
+
+# System server and services tuning
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.sys.language=en \
+	persist.sys.localevar= \
+	ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html \
+	ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
 
 # Disable non-essential services for low RAM
 PRODUCT_PACKAGES += \
@@ -97,7 +141,20 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES_EXCLUDE := \
 	LiveTv \
 	TvSampleLeanbackLauncher \
-	Music
+	Music \
+	WallpaperPicker \
+	Galaxy4 \
+	HoloSpiralWallpaper \
+	LiveWallpapers \
+	LiveWallpapersPicker \
+	MagicSmokeWallpapers \
+	NoiseField \
+	PhaseBeam \
+	VisualizationWallpapers
+
+# Exclude pKVM/Virtualization on low-RAM device
+PRODUCT_PACKAGES_EXCLUDE += \
+	com.android.virt
 endif
 
 # Speed profile services and wifi-service to reduce RAM and storage.

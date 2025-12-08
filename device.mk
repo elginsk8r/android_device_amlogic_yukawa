@@ -54,8 +54,10 @@ PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 # Use generic ramdisk (init_boot)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
-# pKVM
+# pKVM - only on devices with enough RAM (VIM3 has 4GB, VIM3L only 2GB)
+ifneq ($(TARGET_DEV_BOARD), vim3l)
 $(call inherit-product-if-exists, packages/modules/Virtualization/apex/product_packages.mk)
+endif
 
 # Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
@@ -205,6 +207,17 @@ PRODUCT_PROPERTY_OVERRIDES += ro.hdmi.device_type=4 \
 PRODUCT_PROPERTY_OVERRIDES += persist.wm.debug.predictive_back=0 \
     persist.wm.debug.predictive_back_anim=0
 
+# VIM3L low-RAM optimizations (2GB)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lmk.upgrade_pressure=40 \
+    ro.lmk.downgrade_pressure=60 \
+    ro.lmk.psi_complete_stall_ms=70 \
+    ro.statsd.enable=false \
+    config.disable_atlas=true \
+    ro.sys.fw.bservice_age=5000 \
+    ro.sys.fw.bservice_enable=true \
+    dalvik.vm.madvise-random=true
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
@@ -266,8 +279,10 @@ PRODUCT_COPY_FILES += \
 	device/generic/car/common/android.hardware.disable.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml
 
 
-# Include Virtualization APEX
+# Include Virtualization APEX - only on devices with enough RAM
+ifneq ($(TARGET_DEV_BOARD), vim3l)
 $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
+endif
 
 # ro.frp.pst points to a partition that contains factory reset protection information.
 PRODUCT_VENDOR_PROPERTIES += ro.frp.pst=/dev/block/by-name/frp
