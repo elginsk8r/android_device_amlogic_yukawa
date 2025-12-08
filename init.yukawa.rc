@@ -7,15 +7,16 @@ on early-init
     # Force performance governor
     write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor performance
     
-    # Boot time fs tuning
-    write /sys/block/mmcblk0/queue/iostats 0
-    write /sys/block/mmcblk0/queue/scheduler bfq
-    write /sys/block/mmcblk0/queue/nr_requests 256
+    # Boot time fs tuning - use bfq for better latency on low-end devices
+    write /sys/block/mmcblk1/queue/iostats 0
+    write /sys/block/mmcblk1/queue/scheduler bfq
+    write /sys/block/mmcblk1/queue/nr_requests 256
+    write /sys/block/mmcblk1/queue/iosched/slice_idle 0
 
 on init
-    # ZRAM setup
+    # ZRAM setup - use lower swappiness to prefer keeping data in RAM
     write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/swappiness 100
+    write /proc/sys/vm/swappiness 40
 
     # Some user code relies on ro.boot.hardware.revision
     setprop ro.boot.hardware.revision ${ro.revision}
@@ -32,13 +33,14 @@ on init
     write /proc/sys/net/ipv4/tcp_mem "22129 29506 44259"
     write /proc/sys/net/ipv4/udp_mem "44259 59012 88518"
 
-    # Additional low memory optimizations
+    # Aggressive low memory optimizations for 2GB device
     write /proc/sys/vm/vfs_cache_pressure 200
-    write /proc/sys/vm/dirty_background_ratio 5
-    write /proc/sys/vm/dirty_ratio 10
-    write /proc/sys/vm/min_free_kbytes 8192
-
-
+    write /proc/sys/vm/dirty_background_ratio 3
+    write /proc/sys/vm/dirty_ratio 5
+    write /proc/sys/vm/min_free_kbytes 16384
+    write /proc/sys/vm/extra_free_kbytes 32768
+    write /proc/sys/vm/watermark_boost_factor 0
+    write /proc/sys/vm/compaction_proactiveness 0
 
     start watchdogd
 
@@ -50,9 +52,13 @@ on boot
     chmod 0222 /sys/kernel/debug/tracing/trace_marker
     write /sys/kernel/debug/tracing/tracing_on 0
 
-    # Limit background processes for low RAM
-    setprop ro.sys.fw.bg_apps_limit 8
+    # Aggressive background process limits for low RAM
+    setprop ro.sys.fw.bg_apps_limit 4
     setprop ro.vendor.perf.cores_online 4
+
+    # Disable animations for better performance
+    setprop debug.sf.nobootanimation 1
+    setprop persist.sys.ui.hw 0
 
 on early-fs
     # Start bootanimation class before mount
@@ -87,5 +93,4 @@ on post-fs-data
     mkdir /data/vendor/wifi 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
-
 
