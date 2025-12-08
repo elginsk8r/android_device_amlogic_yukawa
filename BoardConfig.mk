@@ -168,6 +168,8 @@ BOARD_KERNEL_CMDLINE += cma=576M
 else
 # VIM3L has only 2GB RAM, use smaller CMA to avoid memory pressure at boot
 BOARD_KERNEL_CMDLINE += cma=192M
+# Disable audit to save RAM on low-memory device
+BOARD_KERNEL_CMDLINE += audit=0
 endif
 
 BOARD_BOOTCONFIG += androidboot.hardware=yukawa
