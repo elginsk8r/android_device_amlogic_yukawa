@@ -46,13 +46,15 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.gralloc.minigbm.backend=gbm_mesa \
     vendor.mesa.gbm_backends_path=/vendor/lib64/gbm \
     debug.renderengine.backend=skiaglthreaded \
-    ro.vendor.hwc.use_overlay_planes=0 \
-    vendor.hwc.drm.scale_with_gpu=1 \
+    ro.vendor.hwc.use_overlay_planes=1 \
+    vendor.hwc.drm.scale_with_gpu=0 \
     ro.surface_flinger.max_frame_buffer_acquired_buffers=2 \
-    ro.surface_flinger.max_graphics_buffers=3 \
+    ro.surface_flinger.max_graphics_buffers=2 \
     debug.sf.disable_client_composition_cache=1 \
     debug.sf.latch_unsignaled=0 \
-    ro.surface_flinger.use_content_detection_for_refresh_rate=false
+    ro.surface_flinger.use_content_detection_for_refresh_rate=false \
+    ro.surface_flinger.running_without_sync_framework=false \
+    ro.surface_flinger.force_hwc_copy_for_virtual_displays=true
 
 # Hardware Composer HAL
 #
