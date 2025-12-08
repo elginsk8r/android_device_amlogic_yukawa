@@ -41,7 +41,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.audio.default.sample_rate=48000 \
     ro.vendor.audio.hdmi.sample_rates=48000,96000,192000
 
-# Period size and count (tune for latency vs power)
+# Period size and count (tune for latency vs stability)
+# Increased for better stability on low-RAM devices
+# 2048 frames @ 48kHz = ~42ms per period, 4 periods = ~170ms buffer
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.audio.period_size=256 \
+    ro.vendor.audio.period_size=2048 \
     ro.vendor.audio.period_count=4
